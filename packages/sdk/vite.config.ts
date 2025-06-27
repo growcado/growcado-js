@@ -1,6 +1,7 @@
 import { resolve } from 'path';
+import { defineConfig } from 'vite';
 
-export default {
+export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/packages/sdk',
   plugins: [],
@@ -32,4 +33,4 @@ export default {
       provider: 'v8' as const,
     },
   },
-};
+});

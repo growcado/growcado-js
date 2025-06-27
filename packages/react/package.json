@@ -21,7 +21,7 @@
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
-    "build": "vite build --mode production",
+    "build": "vite build --mode production && npx tsc -p tsconfig.lib.json --emitDeclarationOnly && cp dist/index.d.ts dist/index.esm.d.ts && cp -r dist/lib dist/",
     "test": "vitest run",
     "lint": "eslint src --ext .ts,.tsx",
     "prepublishOnly": "npm run build && npm run test && npm run lint",
