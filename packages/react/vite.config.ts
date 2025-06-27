@@ -1,16 +1,23 @@
 import { defineConfig, type LibraryFormats } from 'vite';
 import react from '@vitejs/plugin-react';
+import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
 
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/packages/react',
-  plugins: [react()],
+  plugins: [
+    react(),
+    dts({
+      insertTypesEntry: true,
+      copyDtsFiles: false
+    })
+  ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'GrowcadoReact',
-      fileName: 'index',
+      fileName: (format) => `index.${format === 'es' ? 'esm.js' : 'cjs'}`,
       formats: ['es'] as LibraryFormats[]
     },
     rollupOptions: {
@@ -31,6 +38,7 @@ export default defineConfig(() => ({
     },
     outDir: 'dist',
     sourcemap: true,
+    emptyOutDir: true,
   },
   
   test: {

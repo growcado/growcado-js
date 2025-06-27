@@ -60,9 +60,9 @@
     "@growcado/sdk": "workspace:*"
   },
   "peerDependencies": {
+    "@tanstack/react-query": ">=4.0.0",
     "react": ">=16.8.0",
-    "react-dom": ">=16.8.0",
-    "@tanstack/react-query": ">=4.0.0"
+    "react-dom": ">=16.8.0"
   },
   "peerDependenciesMeta": {
     "@tanstack/react-query": {
@@ -72,5 +72,8 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "vite-plugin-dts": "^4.5.4"
   }
 }
