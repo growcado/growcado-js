@@ -121,7 +121,43 @@ jobs:
           path: packages/*/dist/
           retention-days: 7
 
-      # TEMPORARY: Publish to NPM on main branch (will remove later)
+      # TEMPORARY: Auto-bump patch version and publish on main branch 
+      - name: Auto-bump patch version
+        run: |
+          echo "🔍 Getting latest published version..."
+          
+          # Get latest version from NPM, fallback to current if not found
+          LATEST_NPM_VERSION=$(npm view @growcado/sdk version 2>/dev/null || echo "0.0.1")
+          CURRENT_VERSION=$(node -p "require('./packages/sdk/package.json').version")
+          
+          echo "Latest NPM version: $LATEST_NPM_VERSION"
+          echo "Current local version: $CURRENT_VERSION"
+          
+          # Parse version and increment patch
+          IFS='.' read -r major minor patch <<< "$LATEST_NPM_VERSION"
+          NEW_PATCH=$((patch + 1))
+          NEW_VERSION="$major.$minor.$NEW_PATCH"
+          
+          echo "New version will be: $NEW_VERSION"
+          
+          # Update SDK package.json
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('packages/sdk/package.json', 'utf8'));
+            pkg.version = '$NEW_VERSION';
+            fs.writeFileSync('packages/sdk/package.json', JSON.stringify(pkg, null, 2) + '\n');
+            console.log('Updated SDK to version $NEW_VERSION');
+          "
+          
+          # Update React package.json
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('packages/react/package.json', 'utf8'));
+            pkg.version = '$NEW_VERSION';
+            fs.writeFileSync('packages/react/package.json', JSON.stringify(pkg, null, 2) + '\n');
+            console.log('Updated React to version $NEW_VERSION');
+          "
+
       - name: Prepare for publishing (temporary)
         run: |
           echo "🚀 Preparing packages for NPM publishing..."
@@ -135,14 +171,15 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "🚀 Publishing @growcado/sdk..."
+          CURRENT_VERSION=$(node -p "require('./packages/sdk/package.json').version")
+          echo "🚀 Publishing @growcado/sdk@$CURRENT_VERSION..."
           cd packages/sdk
           npm publish --access public
           cd ../..
           
-          echo "🚀 Publishing @growcado/react..." 
+          echo "🚀 Publishing @growcado/react@$CURRENT_VERSION..." 
           cd packages/react
           npm publish --access public
           cd ../..
           
-          echo "✅ Published both packages to NPM" 
+          echo "✅ Published both packages to NPM at version $CURRENT_VERSION" 
