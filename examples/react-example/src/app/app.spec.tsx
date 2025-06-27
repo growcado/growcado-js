@@ -11,7 +11,7 @@ describe('App', () => {
   it('should have a greeting as the title', () => {
     const { getAllByText } = render(<App />);
     expect(
-      getAllByText(new RegExp('Welcome @growcado/react-example', 'gi')).length >
+      getAllByText(new RegExp('Growcado SDK React Example', 'i')).length >
         0
     ).toBeTruthy();
   });
