@@ -1,13 +1,26 @@
-import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
-export default defineConfig(() => ({
+export default {
   root: __dirname,
   cacheDir: '../../node_modules/.vite/packages/sdk',
   plugins: [],
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
+  
+  // Build configuration for library
+  build: {
+    lib: {
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'GrowcadoSDK',
+      fileName: (format: string) => `index.${format === 'es' ? 'esm.js' : 'cjs'}`,
+      formats: ['es', 'cjs']
+    },
+    rollupOptions: {
+      external: [],
+      output: {}
+    },
+    outDir: 'dist',
+    sourcemap: true,
+  },
+  
   test: {
     watch: false,
     globals: true,
@@ -19,4 +32,4 @@ export default defineConfig(() => ({
       provider: 'v8' as const,
     },
   },
-}));
+};

@@ -7,9 +7,6 @@ on:
 env:
   NODE_VERSION: '20'
   PNPM_VERSION: '9'
-  CI: true
-  NX_NON_INTERACTIVE: true
-  NO_COLOR: true
 
 jobs:
   publish:
@@ -77,16 +74,10 @@ jobs:
           cd ../..
 
       - name: Build packages
-        run: |
-          echo "🏗️ Building packages..."
-          pnpm nx run-many -t build --projects=sdk,react --parallel=1 --verbose
-        timeout-minutes: 10
+        run: pnpm nx run-many -t build --projects=sdk,react --parallel=3
 
       - name: Run tests
-        run: |
-          echo "🧪 Running tests..."
-          pnpm nx run-many -t test --projects=sdk,react --parallel=1 --verbose
-        timeout-minutes: 5
+        run: pnpm nx run-many -t test --projects=sdk,react --parallel=3
 
       - name: Publish to NPM
         env:

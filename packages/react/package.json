@@ -21,9 +21,9 @@
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
-    "build": "nx build react",
-    "test": "nx test react",
-    "lint": "nx lint react",
+    "build": "vite build --mode production",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts,.tsx",
     "prepublishOnly": "npm run build && npm run test && npm run lint",
     "pack": "npm pack",
     "publish:dry": "npm publish --dry-run"

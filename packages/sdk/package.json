@@ -21,9 +21,9 @@
     "!**/*.tsbuildinfo"
   ],
   "scripts": {
-    "build": "nx build sdk",
-    "test": "nx test sdk",
-    "lint": "nx lint sdk",
+    "build": "vite build --mode production",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
     "prepublishOnly": "npm run build && npm run test && npm run lint",
     "pack": "npm pack",
     "publish:dry": "npm publish --dry-run"
@@ -54,9 +54,7 @@
   "engines": {
     "node": ">=16.0.0"
   },
-  "dependencies": {
-    "tslib": "^2.3.0"
-  },
+  "dependencies": {},
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

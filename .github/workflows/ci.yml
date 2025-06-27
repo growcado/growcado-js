@@ -9,9 +9,6 @@ on:
 env:
   NODE_VERSION: '20'
   PNPM_VERSION: '9'
-  CI: true
-  NX_NON_INTERACTIVE: true
-  NO_COLOR: true
 
 jobs:
   # Job 1: Verify and test on PRs
@@ -54,12 +51,10 @@ jobs:
         uses: nrwl/nx-set-shas@v4
 
       - name: Run affected lint
-        run: pnpm nx affected -t lint --parallel=2 --verbose
-        timeout-minutes: 5
+        run: pnpm nx affected -t lint --parallel=3
 
       - name: Run affected tests
-        run: pnpm nx affected -t test --parallel=2 --coverage --verbose
-        timeout-minutes: 10
+        run: pnpm nx affected -t test --parallel=3 --coverage
 
       - name: Upload test coverage
         if: always()
@@ -110,16 +105,13 @@ jobs:
         uses: nrwl/nx-set-shas@v4
 
       - name: Run affected lint
-        run: pnpm nx affected -t lint --parallel=2 --verbose
-        timeout-minutes: 5
+        run: pnpm nx affected -t lint --parallel=3
 
       - name: Run affected tests
-        run: pnpm nx affected -t test --parallel=2 --verbose
-        timeout-minutes: 10
+        run: pnpm nx affected -t test --parallel=3
 
       - name: Run affected builds
-        run: pnpm nx affected -t build --parallel=2 --verbose
-        timeout-minutes: 10
+        run: pnpm nx affected -t build --parallel=3
 
       - name: Upload build artifacts
         if: always()
@@ -138,7 +130,6 @@ jobs:
           CURRENT_VERSION=$(node -p "require('./package.json').version")
           sed -i.bak "s/\"@growcado\/sdk\": \"workspace:\*\"/\"@growcado\/sdk\": \"^$CURRENT_VERSION\"/" package.json
           cd ../..
-        timeout-minutes: 2
 
       - name: Publish to NPM (temporary)
         env:
@@ -154,5 +145,4 @@ jobs:
           npm publish --access public
           cd ../..
           
-          echo "✅ Published both packages to NPM"
-        timeout-minutes: 5 
+          echo "✅ Published both packages to NPM" 
