@@ -1,31 +1,19 @@
 # Quick Start: CI/CD Setup
 
 ## ✅ Status: Ready! 
-Your CI/CD is configured and ready to use. Just need to commit your files first.
+Your CI/CD is configured with three separate workflows for clean separation of concerns.
 
 ## 🚀 Immediate Next Steps
 
-### 1. Commit Your Files (Required for Nx)
-```bash
-# Add all files to Git
-git add .
-
-# Commit with a proper semantic commit message
-git commit -m "feat: add CI/CD workflows and publishing setup"
-
-# Push to your repository
-git push origin main
-```
-
-### 2. Set Up NPM Token (Required for Publishing)
+### 1. Set Up NPM Token (Required for Publishing)
 1. Go to [npmjs.com](https://www.npmjs.com) → Profile → Access Tokens
 2. Create a new **Automation** token
 3. In GitHub: `Settings > Secrets and Variables > Actions`
 4. Add secret: `NPM_TOKEN` = your token
 
-### 3. Test Everything Works
+### 2. Test Everything Works
 ```bash
-# Quick test (should work now after commit)
+# Quick test your setup
 npm run test:ci-cd:quick
 
 # Test affected commands
@@ -38,35 +26,40 @@ pnpm nx affected -t build
 npm run publish:dry
 ```
 
-## 🎯 How It Works
+## 🎯 How the Three Workflows Work
 
-### Pull Requests
-- Automatically builds and tests only **affected** packages
-- Fast with pnpm caching
-- Blocks merge if tests fail
+### 1. **Pull Requests** (`.github/workflows/ci.yml`)
+- **Triggers:** On PRs to main
+- **Actions:** Verify and test affected packages
+- **Purpose:** Quality gate before merging
 
-### Main Branch (Publishing)
-- Checks for affected publishable packages
-- Auto-detects version bump from commit message:
-  - `feat:` → minor version (0.1.0)
-  - `fix:` → patch version (0.0.1)  
-  - `feat!:` or `fix!:` → major version (1.0.0)
-- Publishes to NPM
-- Creates GitHub releases with tags
+### 2. **Main Branch** (`.github/workflows/ci.yml`)  
+- **Triggers:** On pushes to main
+- **Actions:** Verify, build, and test affected packages
+- **Purpose:** Ensure main branch stays healthy
 
-### Semantic Versioning Examples
+### 3. **Publishing** (`.github/workflows/publish.yml`)
+- **Triggers:** When you create a GitHub release
+- **Actions:** Build, test, and publish to NPM
+- **Purpose:** Manual release control
+
+## 📋 Publishing Workflow
+
+### Creating a Release
+1. **Create a GitHub release** with version tag (e.g., `v1.2.3`)
+2. **GitHub Actions automatically:**
+   - Extracts version from tag
+   - Updates package.json files
+   - Builds and tests packages
+   - Publishes to NPM
+   - Creates workflow summary
+
+### Version Tag Examples
 ```bash
-# Patch (0.0.X) - bug fixes, docs, chores
-git commit -m "fix: resolve SDK authentication issue"
-git commit -m "docs: update installation guide"
-
-# Minor (0.X.0) - new features  
-git commit -m "feat: add new personalization hooks"
-git commit -m "feat(react): implement data visualization components"
-
-# Major (X.0.0) - breaking changes
-git commit -m "feat!: redesign API interface"
-git commit -m "fix!: remove deprecated authentication methods"
+v1.0.0    # Major release
+v0.2.0    # Minor release  
+v0.1.1    # Patch release
+1.0.0     # Also works (without 'v' prefix)
 ```
 
 ## 🧪 Current Package Status

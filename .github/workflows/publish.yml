@@ -1,0 +1,108 @@
+name: Publish to NPM
+
+on:
+  release:
+    types: [published]
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '9'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          # Extract version from GitHub release tag (remove 'v' prefix if present)
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Publishing version: $VERSION"
+
+      - name: Update package versions
+        run: |
+          # Update package.json files to match release version
+          VERSION=${{ steps.version.outputs.version }}
+          
+          # Update SDK package
+          cd packages/sdk
+          npm version $VERSION --no-git-tag-version
+          cd ../..
+          
+          # Update React package  
+          cd packages/react
+          npm version $VERSION --no-git-tag-version
+          # Update dependency to use the new SDK version
+          sed -i.bak "s/\"@growcado\/sdk\": \"workspace:\*\"/\"@growcado\/sdk\": \"^$VERSION\"/" package.json
+          cd ../..
+
+      - name: Build packages
+        run: pnpm nx run-many -t build --projects=sdk,react --parallel=3
+
+      - name: Run tests
+        run: pnpm nx run-many -t test --projects=sdk,react --parallel=3
+
+      - name: Publish to NPM
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "🚀 Publishing @growcado/sdk@${{ steps.version.outputs.version }}"
+          cd packages/sdk
+          npm publish --access public
+          cd ../..
+          
+          echo "🚀 Publishing @growcado/react@${{ steps.version.outputs.version }}"
+          cd packages/react
+          npm publish --access public
+          cd ../..
+
+      - name: Create summary
+        run: |
+          echo "## 🎉 Published Successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Packages Published:" >> $GITHUB_STEP_SUMMARY
+          echo "- \`@growcado/sdk@${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`@growcado/react@${{ steps.version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Installation:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "npm install @growcado/sdk@${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "npm install @growcado/react@${{ steps.version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY 

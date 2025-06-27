@@ -5,28 +5,35 @@ This document explains the GitHub Actions CI/CD setup for the Growcado monorepo.
 ## Overview
 
 The CI/CD pipeline provides:
-- **Pull Request Validation**: Builds and tests only affected packages
-- **Automated Publishing**: Semantic versioning and NPM publishing on main branch
+- **Pull Request Validation**: Verify and test only affected packages
+- **Main Branch CI**: Verify, build, and test affected packages  
+- **Manual Publishing**: Publish to NPM when you create GitHub releases
 - **Fast Builds**: Uses pnpm for faster dependency installation and caching
 - **Nx Integration**: Leverages Nx's affected commands for efficient builds
 
 ## Workflow Structure
 
-### Pull Request CI (`ci` job)
-Triggers on all pull requests to `main`:
+### 1. Pull Request CI (`.github/workflows/ci.yml`)
+Triggers on pull requests to `main`:
 1. Sets up Node.js 20 and pnpm 9
 2. Installs dependencies with caching
-3. Runs affected lint/test/build commands
+3. Runs affected lint and test commands
 4. Uploads test coverage artifacts
 
-### Release and Publish (`release` job)
+### 2. Main Branch CI (`.github/workflows/ci.yml`)
 Triggers on pushes to `main`:
-1. Runs full CI validation
-2. Checks for publishable changes in affected packages
-3. Determines semantic version bump from commit messages
-4. Updates package versions and creates Git tags
-5. Publishes to NPM
-6. Creates GitHub releases
+1. Sets up Node.js 20 and pnpm 9
+2. Installs dependencies with caching
+3. Runs affected lint, test, and build commands
+4. Uploads build artifacts
+
+### 3. Publish to NPM (`.github/workflows/publish.yml`)
+Triggers when you create a GitHub release:
+1. Extracts version from release tag
+2. Updates package.json files to match release version
+3. Builds and tests all packages
+4. Publishes to NPM with proper versioning
+5. Creates workflow summary
 
 ## Required Secrets
 
@@ -41,29 +48,32 @@ Configure these secrets in your GitHub repository settings (`Settings > Secrets 
 ### GITHUB_TOKEN
 This is automatically provided by GitHub Actions - no setup needed.
 
-## Semantic Versioning
+## Publishing Process
 
-The pipeline automatically determines version bumps based on commit message conventions:
+Publishing is now **manual and controlled** through GitHub releases:
 
-### Major Version (Breaking Changes)
+### Creating a Release
+1. **Go to GitHub** → Releases → "Create a new release"
+2. **Choose a tag** (e.g., `v1.2.3`, `v0.1.0`, `1.0.0`)
+3. **Write release notes** describing the changes
+4. **Publish the release**
+5. **GitHub Actions automatically publishes** to NPM
+
+### Version Tag Examples
 ```bash
-git commit -m "feat!: redesign API interface"
-git commit -m "fix!: remove deprecated methods"
-git commit -m "feat(sdk)!: change authentication flow"
+v1.0.0    # Major release (breaking changes)
+v0.2.0    # Minor release (new features)
+v0.1.1    # Patch release (bug fixes)
+1.0.0     # Also works without 'v' prefix
 ```
 
-### Minor Version (New Features)
-```bash
-git commit -m "feat: add new personalization hooks"
-git commit -m "feat(react): implement new components"
-```
-
-### Patch Version (Bug Fixes, Docs, etc.)
-```bash
-git commit -m "fix: resolve caching issue"
-git commit -m "docs: update README"
-git commit -m "chore: update dependencies"
-```
+### What Happens During Publishing
+1. **Version extraction** from your release tag
+2. **Package.json updates** to match the release version
+3. **Dependency resolution** (React package gets SDK version)
+4. **Build and test** all packages
+5. **NPM publishing** with public access
+6. **Summary report** in GitHub Actions
 
 ## Local Testing
 
