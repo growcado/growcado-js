@@ -9,6 +9,9 @@ on:
 env:
   NODE_VERSION: '20'
   PNPM_VERSION: '9'
+  CI: true
+  NX_NON_INTERACTIVE: true
+  NO_COLOR: true
 
 jobs:
   # Job 1: Verify and test on PRs
@@ -51,10 +54,12 @@ jobs:
         uses: nrwl/nx-set-shas@v4
 
       - name: Run affected lint
-        run: pnpm nx affected -t lint --parallel=3
+        run: pnpm nx affected -t lint --parallel=2 --verbose
+        timeout-minutes: 5
 
       - name: Run affected tests
-        run: pnpm nx affected -t test --parallel=3 --coverage
+        run: pnpm nx affected -t test --parallel=2 --coverage --verbose
+        timeout-minutes: 10
 
       - name: Upload test coverage
         if: always()
@@ -78,6 +83,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -104,13 +110,16 @@ jobs:
         uses: nrwl/nx-set-shas@v4
 
       - name: Run affected lint
-        run: pnpm nx affected -t lint --parallel=3
+        run: pnpm nx affected -t lint --parallel=2 --verbose
+        timeout-minutes: 5
 
       - name: Run affected tests
-        run: pnpm nx affected -t test --parallel=3
+        run: pnpm nx affected -t test --parallel=2 --verbose
+        timeout-minutes: 10
 
       - name: Run affected builds
-        run: pnpm nx affected -t build --parallel=3
+        run: pnpm nx affected -t build --parallel=2 --verbose
+        timeout-minutes: 10
 
       - name: Upload build artifacts
         if: always()
@@ -118,4 +127,32 @@ jobs:
         with:
           name: build-artifacts
           path: packages/*/dist/
-          retention-days: 7 
+          retention-days: 7
+
+      # TEMPORARY: Publish to NPM on main branch (will remove later)
+      - name: Prepare for publishing (temporary)
+        run: |
+          echo "🚀 Preparing packages for NPM publishing..."
+          # Update React package to use published SDK version instead of workspace
+          cd packages/react
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          sed -i.bak "s/\"@growcado\/sdk\": \"workspace:\*\"/\"@growcado\/sdk\": \"^$CURRENT_VERSION\"/" package.json
+          cd ../..
+        timeout-minutes: 2
+
+      - name: Publish to NPM (temporary)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "🚀 Publishing @growcado/sdk..."
+          cd packages/sdk
+          npm publish --access public
+          cd ../..
+          
+          echo "🚀 Publishing @growcado/react..." 
+          cd packages/react
+          npm publish --access public
+          cd ../..
+          
+          echo "✅ Published both packages to NPM"
+        timeout-minutes: 5 
