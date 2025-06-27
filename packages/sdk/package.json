@@ -1,6 +1,6 @@
 {
   "name": "@growcado/sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Core TypeScript SDK for Growcado headless CMS and personalization platform",
   "type": "module",
   "main": "./dist/index.cjs",
