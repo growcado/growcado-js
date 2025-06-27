@@ -19,16 +19,11 @@ node_modules
 .settings/
 *.sublime-workspace
 
-# IDE - VSCode (keep project settings, ignore personal ones)
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# IDE - VSCode
+.vscode/
 
-# IDE - Cursor (keep project MCP config, ignore personal rules)
-.cursor/*
-!.cursor/mcp.json
+# IDE - Cursor  
+.cursor/
 
 # misc
 /.sass-cache
