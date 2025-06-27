@@ -1,0 +1,64 @@
+{
+  "name": "@growcado/sdk",
+  "version": "0.0.1",
+  "description": "Core TypeScript SDK for Growcado headless CMS and personalization platform",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.esm.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "development": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.esm.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "!**/*.tsbuildinfo"
+  ],
+  "scripts": {
+    "build": "nx build sdk",
+    "test": "nx test sdk",
+    "lint": "nx lint sdk",
+    "prepublishOnly": "npm run build && npm run test && npm run lint",
+    "pack": "npm pack",
+    "publish:dry": "npm publish --dry-run"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "growcado",
+    "headless-cms",
+    "personalization",
+    "sdk",
+    "typescript"
+  ],
+  "author": {
+    "name": "Growcado",
+    "email": "support@growcado.io",
+    "url": "https://growcado.io"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/growcado/growcado-js.git",
+    "directory": "packages/sdk"
+  },
+  "homepage": "https://growcado.io",
+  "bugs": {
+    "url": "https://github.com/growcado/growcado-js/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

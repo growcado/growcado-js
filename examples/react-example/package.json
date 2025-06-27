@@ -1,0 +1,12 @@
+{
+  "name": "@growcado/react-example",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@growcado/sdk": "workspace:*",
+    "@growcado/react": "workspace:*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@tanstack/react-query": "^5.81.2"
+  }
+}

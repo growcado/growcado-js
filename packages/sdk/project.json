@@ -1,0 +1,25 @@
+{
+  "name": "@growcado/sdk",
+  "targets": {
+    "build": {
+      "executor": "@nx/rollup:rollup",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "main": "packages/sdk/src/index.ts",
+        "outputPath": "packages/sdk/dist",
+        "tsConfig": "packages/sdk/tsconfig.lib.json",
+        "compiler": "tsc",
+        "format": ["esm", "cjs"],
+        "sourcemap": true,
+        "external": ["tslib"],
+        "assets": [
+          {
+            "input": "packages/sdk",
+            "output": ".",
+            "glob": "README.md"
+          }
+        ]
+      }
+    }
+  }
+} 
