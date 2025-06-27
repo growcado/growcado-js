@@ -29,10 +29,8 @@
       "node"
     ],
     
-    // Path Resolution for SDK imports
+    // Path Resolution for React package
     "paths": {
-      "@growcado/sdk": ["../sdk/src/index.ts"],
-      "@growcado/sdk/*": ["../sdk/src/*"],
       "@growcado/react": ["./src/index.ts"],
       "@growcado/react/*": ["./src/*"]
     }
@@ -42,11 +40,6 @@
     "src/**/*.jsx", 
     "src/**/*.ts", 
     "src/**/*.tsx"
-  ],
-  "references": [
-    {
-      "path": "../sdk/tsconfig.lib.json"
-    }
   ],
   "exclude": [
     "out-tsc",
