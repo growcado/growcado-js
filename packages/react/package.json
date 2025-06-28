@@ -1,15 +1,15 @@
 {
   "name": "@growcado/react",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "React hooks and components for Growcado SDK",
-  "main": "./index.js",
+  "main": "./index.cjs.js",
   "module": "./index.esm.js",
   "types": "./index.d.ts",
   "exports": {
     ".": {
       "types": "./index.d.ts",
       "import": "./index.esm.js",
-      "require": "./index.js"
+      "require": "./index.cjs.js"
     }
   },
   "files": [
@@ -17,6 +17,12 @@
     "*.js",
     "*.js.map"
   ],
+  "scripts": {
+    "build": "cd ../../ && nx run react:build",
+    "publish:patch": "cd ../../ && ./scripts/publish-package.sh react patch",
+    "publish:minor": "cd ../../ && ./scripts/publish-package.sh react minor",
+    "publish:major": "cd ../../ && ./scripts/publish-package.sh react major"
+  },
   "dependencies": {
     "@growcado/sdk": "workspace:*"
   },
