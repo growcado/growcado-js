@@ -1,6 +1,6 @@
 {
   "name": "@growcado/sdk",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "Core SDK for Growcado services",
   "main": "./cjs/index.js",
   "module": "./index.js",
@@ -15,11 +15,20 @@
   "files": [
     "*.d.ts",
     "*.js",
-    "*.js.map", 
+    "*.js.map",
     "cjs/",
     "lib/"
   ],
-  "keywords": ["growcado", "sdk"],
+  "scripts": {
+    "build": "cd ../../ && nx run sdk:build",
+    "publish:patch": "cd ../../ && ./scripts/publish-package.sh sdk patch",
+    "publish:minor": "cd ../../ && ./scripts/publish-package.sh sdk minor",
+    "publish:major": "cd ../../ && ./scripts/publish-package.sh sdk major"
+  },
+  "keywords": [
+    "growcado",
+    "sdk"
+  ],
   "author": "",
   "license": "MIT",
   "repository": {
