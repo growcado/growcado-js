@@ -1,21 +1,24 @@
 import { render, screen } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
+import { useGrowcado, GrowcadoWidget } from './react';
 
-import GrowcadoReact from './react';
-
-describe('GrowcadoReact', () => {
-  it('should render successfully', () => {
-    const { baseElement } = render(<GrowcadoReact />);
-    expect(baseElement).toBeTruthy();
+describe('useGrowcado', () => {
+  it('should return SDK and version', () => {
+    const { result } = renderHook(() => useGrowcado());
+    
+    expect(result.current.sdk).toBeDefined();
+    expect(result.current.version).toBe('sdk');
+    expect(typeof result.current.sdk).toBe('function');
   });
+});
 
-  it('should display SDK message', () => {
-    render(<GrowcadoReact />);
-    expect(screen.getByText(/Core SDK says: sdk/)).toBeDefined();
-  });
-
-  it('should display custom message when provided', () => {
-    const customMessage = 'Hello from React!';
-    render(<GrowcadoReact message={customMessage} />);
-    expect(screen.getByText(`Custom message: ${customMessage}`)).toBeDefined();
+describe('GrowcadoWidget', () => {
+  it('should render SDK information', () => {
+    const { container } = render(<GrowcadoWidget />);
+    
+    expect(screen.getByText('Growcado SDK')).toBeTruthy();
+    expect(screen.getByText('Version: sdk')).toBeTruthy();
+    expect(container.textContent).toContain('Growcado SDK');
+    expect(container.textContent).toContain('Version: sdk');
   });
 });

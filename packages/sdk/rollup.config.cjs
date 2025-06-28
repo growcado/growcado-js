@@ -3,22 +3,15 @@ const { withNx } = require('@nx/rollup/with-nx');
 module.exports = withNx(
   {
     main: './src/index.ts',
-    outputPath: './dist',
+    outputPath: '../../dist/packages/sdk',
     tsConfig: './tsconfig.lib.json',
-    compiler: 'tsc',
-    format: ['esm', 'cjs'],
-    sourcemap: true,
-    // External dependencies - don't bundle these
-    external: ['tslib'],
-    assets: [{ input: '.', output: '.', glob: 'README.md' }],
+    compiler: 'swc',
+    format: ['cjs', 'esm'],
+    assets: [{ input: '{projectRoot}', output: '.', glob: '*.md' }],
   },
   {
-    // Additional rollup configuration
-    output: {
-      // Generate proper sourcemaps
-      sourcemap: true,
-      // Use proper banner for SDK library
-      banner: '/* Growcado SDK - https://growcado.io */',
-    },
+    // Provide additional rollup configuration here. See: https://rollupjs.org/configuration-options
+    // e.g.
+    // output: { sourcemap: true },
   }
-); 
+);

@@ -1,27 +1,15 @@
-import { resolve } from 'path';
 import { defineConfig } from 'vite';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
-export default defineConfig({
+export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/packages/sdk',
-  plugins: [],
-  
-  // Build configuration for library
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'GrowcadoSDK',
-      fileName: (format: string) => `index.${format === 'es' ? 'esm.js' : 'cjs'}`,
-      formats: ['es', 'cjs']
-    },
-    rollupOptions: {
-      external: [],
-      output: {}
-    },
-    outDir: 'dist',
-    sourcemap: true,
-  },
-  
+  plugins: [nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  // Uncomment this if you are using workers.
+  // worker: {
+  //  plugins: [ nxViteTsPaths() ],
+  // },
   test: {
     watch: false,
     globals: true,
@@ -29,8 +17,8 @@ export default defineConfig({
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: './test-output/vitest/coverage',
+      reportsDirectory: '../../coverage/packages/sdk',
       provider: 'v8' as const,
     },
   },
-});
+}));

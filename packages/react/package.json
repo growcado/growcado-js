@@ -1,79 +1,46 @@
 {
   "name": "@growcado/react",
-  "version": "0.0.2",
-  "description": "React components and hooks for Growcado headless CMS and personalization platform",
-  "type": "module",
-  "main": "./dist/index.esm.js",
-  "module": "./dist/index.esm.js",
-  "types": "./dist/index.esm.d.ts",
+  "version": "0.0.1",
+  "description": "React hooks and components for Growcado SDK",
+  "main": "./index.js",
+  "module": "./index.esm.js",
+  "types": "./index.d.ts",
   "exports": {
-    "./package.json": "./package.json",
     ".": {
-      "development": "./src/index.ts",
-      "types": "./dist/index.esm.d.ts",
-      "import": "./dist/index.esm.js",
-      "default": "./dist/index.esm.js"
+      "types": "./index.d.ts",
+      "import": "./index.esm.js",
+      "require": "./index.js"
     }
   },
   "files": [
-    "dist",
-    "README.md",
-    "!**/*.tsbuildinfo"
+    "*.d.ts",
+    "*.js",
+    "*.js.map"
   ],
-  "scripts": {
-    "build": "vite build --mode production && npx tsc -p tsconfig.lib.json --emitDeclarationOnly && cp dist/index.d.ts dist/index.esm.d.ts",
-    "test": "vitest run",
-    "lint": "eslint src --ext .ts,.tsx",
-    "prepublishOnly": "npm run build && npm run test && npm run lint",
-    "pack": "npm pack",
-    "publish:dry": "npm publish --dry-run"
-  },
-  "sideEffects": false,
-  "keywords": [
-    "growcado",
-    "react",
-    "headless-cms",
-    "personalization",
-    "components",
-    "hooks",
-    "typescript"
-  ],
-  "author": {
-    "name": "Growcado",
-    "email": "support@growcado.io",
-    "url": "https://growcado.io"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/growcado/growcado-js.git",
-    "directory": "packages/react"
-  },
-  "homepage": "https://growcado.io",
-  "bugs": {
-    "url": "https://github.com/growcado/growcado-js/issues"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
   "dependencies": {
     "@growcado/sdk": "workspace:*"
   },
   "peerDependencies": {
-    "@tanstack/react-query": ">=4.0.0",
     "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react-dom": ">=16.8.0",
+    "@tanstack/react-query": ">=4.0.0"
   },
   "peerDependenciesMeta": {
     "@tanstack/react-query": {
       "optional": true
     }
   },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "devDependencies": {
-    "vite-plugin-dts": "^4.5.4"
+  "keywords": [
+    "growcado",
+    "react",
+    "hooks",
+    "sdk"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/growcado/growcado-js",
+    "directory": "packages/react"
   }
 }

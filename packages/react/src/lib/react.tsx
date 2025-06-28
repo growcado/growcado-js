@@ -1,19 +1,34 @@
+import React from 'react';
 import { sdk } from '@growcado/sdk';
 
-export interface GrowcadoReactProps {
-  message?: string;
+// Export the SDK for direct usage
+export { sdk } from '@growcado/sdk';
+
+/**
+ * Simple React hook for using the Growcado SDK
+ */
+export function useGrowcado() {
+  const version = sdk();
+  
+  return {
+    sdk,
+    version,
+  };
 }
 
-export function GrowcadoReact({ message }: GrowcadoReactProps) {
-  const sdkMessage = sdk();
+/**
+ * Simple widget component
+ */
+export function GrowcadoWidget(): React.ReactElement {
+  const { version } = useGrowcado();
   
   return (
     <div>
-      <h1>Welcome to Growcado React!</h1>
-      <p>Core SDK says: {sdkMessage}</p>
-      {message && <p>Custom message: {message}</p>}
+      <h3>Growcado SDK</h3>
+      <p>Version: {version}</p>
     </div>
   );
 }
 
-export default GrowcadoReact;
+// Default export
+export default useGrowcado;

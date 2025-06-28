@@ -1,75 +1,9 @@
-# See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
-# compiled output
-dist
-tmp
-out-tsc
-*.tsbuildinfo
-*.d.ts.map
-
-# dependencies
-node_modules
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/
-
-# IDE - Cursor  
-.cursor/
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
-.DS_Store
-Thumbs.db
-
+.nx/installation
 .nx/cache
 .nx/workspace-data
+
+
 .cursor/rules/nx-rules.mdc
 .github/instructions/nx.instructions.md
-
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
-
-# Package build artifacts and local registry
-*.tgz
-packages/*/dist
-.verdaccio/
-.verdaccio/*
-
-# Environment files
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-# Local registry storage
-tmp/local-registry/
-
-# Nx daemon logs
-.nx/workspace-data/d/daemon.log

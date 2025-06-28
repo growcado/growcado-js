@@ -1,4 +1,4 @@
-import { sdk } from './sdk.js';
+import { sdk } from './sdk';
 
 describe('sdk', () => {
   it('should work', () => {

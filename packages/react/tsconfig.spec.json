@@ -1,25 +1,14 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./out-tsc/vitest",
+    "outDir": "../../dist/out-tsc",
     "types": [
       "vitest/globals",
       "vitest/importMeta",
       "vite/client",
       "node",
       "vitest"
-    ],
-    "jsx": "react-jsx",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    
-    // Path Resolution for SDK imports in tests
-    "paths": {
-      "@growcado/sdk": ["../sdk/src/index.ts"],
-      "@growcado/sdk/*": ["../sdk/src/*"],
-      "@growcado/react": ["./src/index.ts"],
-      "@growcado/react/*": ["./src/*"]
-    }
+    ]
   },
   "include": [
     "vite.config.ts",
@@ -35,10 +24,5 @@
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx",
     "src/**/*.d.ts"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    }
   ]
 }

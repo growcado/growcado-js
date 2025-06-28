@@ -1,39 +1,16 @@
-import { defineConfig, type LibraryFormats } from 'vite';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/packages/react',
-  plugins: [react()],
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'GrowcadoReact',
-      fileName: (format) => `index.${format === 'es' ? 'esm.js' : 'cjs'}`,
-      formats: ['es'] as LibraryFormats[]
-    },
-    rollupOptions: {
-      external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
-        '@tanstack/react-query',
-        '@growcado/sdk'
-      ],
-      output: {
-        globals: {
-          'react': 'React',
-          'react-dom': 'ReactDOM',
-          '@growcado/sdk': 'GrowcadoSDK'
-        }
-      }
-    },
-    outDir: 'dist',
-    sourcemap: true,
-    emptyOutDir: true,
-  },
-  
+  plugins: [react(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  // Uncomment this if you are using workers.
+  // worker: {
+  //  plugins: [ nxViteTsPaths() ],
+  // },
   test: {
     watch: false,
     globals: true,
@@ -41,7 +18,7 @@ export default defineConfig(() => ({
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: './test-output/vitest/coverage',
+      reportsDirectory: '../../coverage/packages/react',
       provider: 'v8' as const,
     },
   },

@@ -1,41 +1,14 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": "src",
-    "outDir": "dist",
-    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
-    
-    // Enable JavaScript and Declaration Output
-    "emitDeclarationOnly": false,
+    "outDir": "../../dist/out-tsc",
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    
-    // Module Configuration for SDK
-    "module": "es2022",
-    "moduleResolution": "bundler",
-    "target": "es2022",
-    
-    // Library-specific Settings
-    "forceConsistentCasingInFileNames": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "types": ["node"],
-    
-    // Path Resolution
-    "paths": {
-      "@growcado/sdk": ["./src/index.ts"],
-      "@growcado/sdk/*": ["./src/*"]
-    }
+    "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "references": [],
   "exclude": [
-    "dist",
-    "node_modules",
     "vite.config.ts",
-    "vite.config.mts", 
+    "vite.config.mts",
     "vitest.config.ts",
     "vitest.config.mts",
     "src/**/*.test.ts",

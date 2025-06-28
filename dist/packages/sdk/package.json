@@ -1,0 +1,8 @@
+{
+  "name": "@growcado/sdk",
+  "version": "0.0.1",
+  "main": "./index.cjs.js",
+  "module": "./index.esm.js",
+  "dependencies": {},
+  "types": "./index.d.ts"
+}

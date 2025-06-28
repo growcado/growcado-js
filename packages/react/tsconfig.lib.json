@@ -1,50 +1,14 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": "src",
-    "outDir": "dist",
-    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
-    
-    // Enable JavaScript and Declaration Output  
-    "emitDeclarationOnly": false,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    
-    // React-specific Module Configuration
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "target": "es2022",
-    "jsx": "react-jsx",
-    "allowJs": false,
-    
-    // Library-specific Settings
-    "forceConsistentCasingInFileNames": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
-    
-    // Types for React (CSS modules removed)
+    "outDir": "../../dist/out-tsc",
     "types": [
-      "node"
-    ],
-    
-    // Path Resolution for React package
-    "paths": {
-      "@growcado/react": ["./src/index.ts"],
-      "@growcado/react/*": ["./src/*"]
-    }
+      "node",
+      "@nx/react/typings/cssmodule.d.ts",
+      "@nx/react/typings/image.d.ts"
+    ]
   },
-  "include": [
-    "src/**/*.js", 
-    "src/**/*.jsx", 
-    "src/**/*.ts", 
-    "src/**/*.tsx"
-  ],
   "exclude": [
-    "out-tsc",
-    "dist",
-    "node_modules",
     "**/*.spec.ts",
     "**/*.test.ts",
     "**/*.spec.tsx",
@@ -64,9 +28,7 @@
     "src/**/*.test.js",
     "src/**/*.spec.js",
     "src/**/*.test.jsx",
-    "src/**/*.spec.jsx",
-    "eslint.config.js",
-    "eslint.config.cjs",
-    "eslint.config.mjs"
-  ]
+    "src/**/*.spec.jsx"
+  ],
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
 }
