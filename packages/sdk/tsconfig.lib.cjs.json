@@ -1,14 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/packages/sdk",
+    "outDir": "../../dist/packages/sdk/cjs",
     "rootDir": "./src",
-    "module": "esnext",
-    "composite": true,
+    "module": "commonjs",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "sourceMap": true,
-    "tsBuildInfoFile": "../../dist/packages/sdk.tsbuildinfo",
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
@@ -26,4 +24,4 @@
     "src/**/*.test.jsx",
     "src/**/*.spec.jsx"
   ]
-}
+} 

@@ -91,3 +91,14 @@ package-lock.json
 .local/
 .backup/
 .old/
+
+# Example apps - development and build files
+examples/*/node_modules/
+examples/*/dist/
+examples/*/build/  
+examples/*/.vite/
+examples/*/.cache/
+examples/*/*.log
+examples/*/.env*
+examples/*/.DS_Store
+examples/*/coverage/

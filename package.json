@@ -15,7 +15,9 @@
     "pre-push:check": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build",
     "pre-push:fix": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build",
     "pre-push:script": "./scripts/pre-push.sh",
-    "verify": "pnpm run pre-push:check"
+    "verify": "pnpm run pre-push:check",
+    "example:vanilla": "cd examples/vanilla-sdk && pnpm install --ignore-scripts && pnpm run dev",
+    "example:react": "cd examples/react-app && pnpm install --ignore-scripts && pnpm run dev"
   },
   "keywords": [
     "growcado",

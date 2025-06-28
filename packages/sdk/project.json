@@ -16,7 +16,12 @@
       "executor": "nx:run-commands",
       "outputs": ["{workspaceRoot}/dist/packages/sdk"],
       "options": {
-        "command": "tsc --build packages/sdk/tsconfig.lib.json"
+        "commands": [
+          "tsc --build packages/sdk/tsconfig.lib.json",
+          "tsc --project packages/sdk/tsconfig.lib.cjs.json",
+          "cp packages/sdk/package.json dist/packages/sdk/"
+        ],
+        "parallel": false
       }
     },
     "lint": {

@@ -1,7 +1,32 @@
 {
   "name": "@growcado/sdk",
   "version": "0.0.1",
-  "main": "./index.cjs",
+  "description": "Core SDK for Growcado services",
+  "main": "./cjs/index.js",
   "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js",
+      "require": "./cjs/index.js"
+    }
+  },
+  "files": [
+    "*.d.ts",
+    "*.js",
+    "*.js.map", 
+    "cjs/",
+    "lib/"
+  ],
+  "keywords": ["growcado", "sdk"],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/growcado/growcado-js",
+    "directory": "packages/sdk"
+  },
+  "type": "module",
   "dependencies": {}
 }
