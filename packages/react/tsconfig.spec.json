@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
+    "outDir": "../../dist/packages/react-spec",
+    "composite": true,
+    "tsBuildInfoFile": "../../dist/packages/react-spec.tsbuildinfo",
     "types": [
       "vitest/globals",
       "vitest/importMeta",
@@ -10,7 +12,16 @@
       "vitest"
     ]
   },
+  "references": [
+    {
+      "path": "../sdk/tsconfig.lib.json"
+    }
+  ],
   "include": [
+    "src/**/*.js",
+    "src/**/*.jsx", 
+    "src/**/*.ts",
+    "src/**/*.tsx",
     "vite.config.ts",
     "vite.config.mts",
     "vitest.config.ts",

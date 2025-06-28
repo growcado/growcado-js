@@ -8,6 +8,7 @@
     "build": {
       "executor": "@nx/rollup:rollup",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
       "options": {
         "outputPath": "dist/packages/react",
         "tsConfig": "packages/react/tsconfig.lib.json",
@@ -34,6 +35,7 @@
     },
     "typecheck": {
       "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
       "options": {
         "command": "tsc --project packages/react/tsconfig.lib.json --noEmit"
       }

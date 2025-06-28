@@ -7,5 +7,12 @@
   },
   "files": [],
   "include": [],
-  "references": []
+  "references": [
+    {
+      "path": "./packages/sdk"
+    },
+    {
+      "path": "./packages/react"
+    }
+  ]
 }

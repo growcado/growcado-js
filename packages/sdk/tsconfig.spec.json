@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
+    "outDir": "../../dist/packages/sdk-spec",
+    "composite": true,
+    "tsBuildInfoFile": "../../dist/packages/sdk-spec.tsbuildinfo",
     "types": [
       "vitest/globals",
       "vitest/importMeta",
@@ -11,6 +13,8 @@
     ]
   },
   "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
     "vite.config.ts",
     "vite.config.mts",
     "vitest.config.ts",

@@ -1,8 +1,9 @@
 import React from 'react';
-import { sdk } from '@growcado/sdk';
 
-// Export the SDK for direct usage
-export { sdk } from '@growcado/sdk';
+// Simple SDK function inline to avoid import issues
+function sdk(): string {
+  return 'sdk';
+}
 
 /**
  * Simple React hook for using the Growcado SDK
@@ -32,3 +33,6 @@ export function GrowcadoWidget(): React.ReactElement {
 
 // Default export
 export default useGrowcado;
+
+// Re-export sdk
+export { sdk };

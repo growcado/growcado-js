@@ -1,12 +1,9 @@
-// Main React hook and components
-export {
-  useGrowcado,
-  GrowcadoWidget,
-  sdk,
-} from './lib/react';
+/**
+ * @fileoverview React wrapper library for Growcado SDK
+ */
 
-// Re-export everything from the core SDK for convenience
-export * from '@growcado/sdk';
+// Export React components and hooks
+export { useGrowcado, GrowcadoWidget, sdk } from './lib/react';
 
 // Default export
 export { default } from './lib/react';

@@ -1,8 +1,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
+    "outDir": "../../dist/packages/sdk",
+    "composite": true,
     "declaration": true,
+    "declarationMap": true,
+    "tsBuildInfoFile": "../../dist/packages/sdk.tsbuildinfo",
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],

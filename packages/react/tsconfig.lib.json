@@ -1,13 +1,22 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
+    "outDir": "../../dist/packages/react",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "tsBuildInfoFile": "../../dist/packages/react.tsbuildinfo",
     "types": [
       "node",
       "@nx/react/typings/cssmodule.d.ts",
       "@nx/react/typings/image.d.ts"
     ]
   },
+  "references": [
+    {
+      "path": "../sdk/tsconfig.lib.json"
+    }
+  ],
   "exclude": [
     "**/*.spec.ts",
     "**/*.test.ts",
