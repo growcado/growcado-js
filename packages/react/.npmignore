@@ -1,0 +1,33 @@
+# Source files
+src/
+*.ts
+*.tsx
+!*.d.ts
+
+# Build artifacts not needed
+*.tsbuildinfo
+tsconfig*.json
+rollup.config.*
+vite.config.*
+eslint.config.*
+.swcrc
+.babelrc
+
+# Development files
+node_modules/
+coverage/
+.nyc_output/
+*.log
+*.tmp
+.DS_Store
+
+# Documentation (keep README.md)
+# README.md is automatically included
+
+# Tests
+*.spec.*
+*.test.*
+__tests__/
+
+# Config files
+project.json 
