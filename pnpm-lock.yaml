@@ -171,7 +171,11 @@ importers:
         specifier: '>=16.8.0'
         version: 19.0.0(react@19.0.0)
 
-  packages/sdk: {}
+  packages/sdk:
+    dependencies:
+      axios:
+        specifier: ^1.6.0
+        version: 1.10.0
 
 packages:
 
