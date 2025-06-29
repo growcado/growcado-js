@@ -6,12 +6,13 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@growcado/react': resolve(__dirname, '../../dist/packages/react'),
-      '@growcado/sdk': resolve(__dirname, '../../dist/packages/sdk')
+      '@growcado/react': resolve(__dirname, '../../packages/react/src'),
+      '@growcado/sdk': resolve(__dirname, '../../packages/sdk/src')
     }
   },
   server: {
     port: 3020,
     open: true
-  }
+  },
+  envDir: resolve(__dirname, '..'), // Load .env files from examples/ directory
 }); 

@@ -13,7 +13,7 @@
     "format:check": "nx format:check",
     "typecheck": "nx run-many -t typecheck",
     "pre-push": "pnpm run pre-push:check",
-    "pre-push:check": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build",
+    "pre-push:check": "pnpm run typecheck && pnpm run lint && npx nx run sdk:test && npx nx run sdk:build",
     "pre-push:fix": "pnpm run typecheck && pnpm run lint && pnpm run test && pnpm run build",
     "pre-push:script": "./scripts/pre-push.sh",
     "verify": "pnpm run pre-push:check",

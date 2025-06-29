@@ -1,7 +1,7 @@
 {
   "name": "@growcado/react",
   "version": "0.0.5",
-  "description": "React hooks and components for Growcado SDK",
+  "description": "React hooks and components for Growcado SDK with React Query integration",
   "main": "./index.cjs.js",
   "module": "./index.esm.js",
   "types": "./index.d.ts",
@@ -24,23 +24,25 @@
     "publish:major": "cd ../../ && ./scripts/publish-package.sh react major"
   },
   "dependencies": {
-    "@growcado/sdk": "workspace:*"
+    "@growcado/sdk": "workspace:*",
+    "@tanstack/react-query": "^5.0.0"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
-    "react-dom": ">=16.8.0",
-    "@tanstack/react-query": ">=4.0.0"
+    "react-dom": ">=16.8.0"
   },
-  "peerDependenciesMeta": {
-    "@tanstack/react-query": {
-      "optional": true
-    }
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0"
   },
   "keywords": [
     "growcado",
     "react",
     "hooks",
-    "sdk"
+    "sdk",
+    "cms",
+    "headless",
+    "react-query"
   ],
   "author": "",
   "license": "MIT",

@@ -23,8 +23,8 @@
     /* Path mapping for workspace packages */
     "baseUrl": ".",
     "paths": {
-      "@growcado/react": ["../../dist/packages/react"],
-      "@growcado/sdk": ["../../dist/packages/sdk"]
+      "@growcado/react": ["../../packages/react/src"],
+      "@growcado/sdk": ["../../packages/sdk/src"]
     }
   },
   "include": ["src"],
