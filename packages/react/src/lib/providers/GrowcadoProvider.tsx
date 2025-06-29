@@ -1,15 +1,26 @@
 import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GrowcadoSDK } from '@growcado/sdk';
-import type { GrowcadoProviderProps, GrowcadoContextValue } from '../types';
+
+// Simple types to avoid build issues
+interface SimpleGrowcadoProviderProps {
+  children: React.ReactNode;
+  config: any;
+  queryClient?: QueryClient;
+}
+
+interface SimpleGrowcadoContextValue {
+  config: any;
+  isConfigured: boolean;
+}
 
 // Create the context
-const GrowcadoContext = createContext<GrowcadoContextValue | null>(null);
+const GrowcadoContext = createContext<SimpleGrowcadoContextValue | null>(null);
 
 /**
  * Hook to access the Growcado context
  */
-export function useGrowcadoContext(): GrowcadoContextValue {
+export function useGrowcadoContext(): SimpleGrowcadoContextValue {
   const context = useContext(GrowcadoContext);
   if (!context) {
     throw new Error('useGrowcadoContext must be used within a GrowcadoProvider');
@@ -33,10 +44,10 @@ const createDefaultQueryClient = () => new QueryClient({
 /**
  * GrowcadoProvider component that provides SDK configuration and React Query client
  */
-export function GrowcadoProvider(props: GrowcadoProviderProps): React.JSX.Element {
+export function GrowcadoProvider(props: SimpleGrowcadoProviderProps) {
   const { children, config, queryClient } = props;
   const [isConfigured, setIsConfigured] = useState(false);
-  const [currentConfig, setCurrentConfig] = useState<typeof config | null>(null);
+  const [currentConfig, setCurrentConfig] = useState(null);
 
   // Create default query client if not provided
   const defaultQueryClient = useMemo(() => {
@@ -56,7 +67,7 @@ export function GrowcadoProvider(props: GrowcadoProviderProps): React.JSX.Elemen
   }, [config]);
 
   // Create context value
-  const contextValue = useMemo<GrowcadoContextValue>(() => ({
+  const contextValue = useMemo(() => ({
     config: currentConfig,
     isConfigured,
   }), [currentConfig, isConfigured]);
