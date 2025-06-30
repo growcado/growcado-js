@@ -1,6 +1,6 @@
 {
   "name": "@growcado/sdk",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Core SDK for Growcado services",
   "main": "./cjs/index.js",
   "module": "./index.js",
