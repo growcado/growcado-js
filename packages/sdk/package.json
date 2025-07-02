@@ -1,6 +1,6 @@
 {
   "name": "@growcado/sdk",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Core SDK for Growcado services",
   "main": "./cjs/index.js",
   "module": "./index.js",
@@ -17,7 +17,8 @@
     "*.js",
     "*.js.map",
     "cjs/",
-    "lib/"
+    "lib/",
+    "README.md"
   ],
   "scripts": {
     "build": "cd ../../ && nx run sdk:build",
