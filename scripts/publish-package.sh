@@ -55,9 +55,13 @@ fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2) + '\n');
 console.log('Updated version to:', pkg.version);
 "
 
-# Step 3: Copy updated package.json to dist
-echo "📋 Copying updated package.json..."
+# Step 3: Copy updated package.json and README to dist
+echo "📋 Copying updated package.json and README..."
 cp $PACKAGE_DIR/package.json $DIST_DIR/
+if [ -f "$PACKAGE_DIR/README.md" ]; then
+    cp $PACKAGE_DIR/README.md $DIST_DIR/
+    echo "📄 README.md copied to dist directory"
+fi
 
 # Step 4: Transform workspace dependencies in dist
 echo "🔄 Transforming workspace dependencies..."
