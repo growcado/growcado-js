@@ -1,16 +1,16 @@
 import React, { createContext, useContext, useEffect, useState, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { GrowcadoSDK } from '@growcado/sdk';
+import { GrowcadoSDK, SDKConfig } from '@growcado/sdk';
 
-// Simple types to avoid build issues
+// Provider props interface
 interface SimpleGrowcadoProviderProps {
   children: React.ReactNode;
-  config: any;
+  config: SDKConfig;
   queryClient?: QueryClient;
 }
 
 interface SimpleGrowcadoContextValue {
-  config: any;
+  config: SDKConfig | null;
   isConfigured: boolean;
 }
 
@@ -44,10 +44,14 @@ const createDefaultQueryClient = () => new QueryClient({
 /**
  * GrowcadoProvider component that provides SDK configuration and React Query client
  */
-export function GrowcadoProvider(props: SimpleGrowcadoProviderProps) {
+export function GrowcadoProvider(props: {
+  children: React.ReactNode;
+  config: SDKConfig;
+  queryClient?: QueryClient;
+}): React.ReactElement {
   const { children, config, queryClient } = props;
   const [isConfigured, setIsConfigured] = useState(false);
-  const [currentConfig, setCurrentConfig] = useState(null);
+  const [currentConfig, setCurrentConfig] = useState<SDKConfig | null>(null);
 
   // Create default query client if not provided
   const defaultQueryClient = useMemo(() => {
@@ -79,4 +83,4 @@ export function GrowcadoProvider(props: SimpleGrowcadoProviderProps) {
       </GrowcadoContext.Provider>
     </QueryClientProvider>
   );
-} 
+}

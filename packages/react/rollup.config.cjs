@@ -6,13 +6,8 @@ module.exports = withNx(
   {
     main: './src/index.ts',
     outputPath: '../../dist/packages/react',
-    tsConfig: './tsconfig.lib.json',
-    compiler: 'swc',
-    external: ['react', 'react-dom', 'react/jsx-runtime', '@growcado/sdk'],
-    format: ['esm', 'cjs'],
-    generateExportsField: true,
-    sourcemap: true,
-    assets: [{ input: '.', output: '.', glob: 'README.md' }],
+    tsConfig: 'packages/react/tsconfig.lib.json',
+    assets: [{ input: 'packages/react', output: '.', glob: 'README.md' }],
   },
   {
     // Provide additional rollup configuration here. See: https://rollupjs.org/configuration-options

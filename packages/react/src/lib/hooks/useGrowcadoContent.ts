@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { GrowcadoSDK } from '@growcado/sdk';
-import type { UseGrowcadoContentConfig, UseGrowcadoContentResult } from '../types';
+import type { ContentConfig } from '@growcado/sdk';
+import type {
+  UseGrowcadoContentConfig,
+  UseGrowcadoContentResult,
+} from '../types';
 import { useGrowcadoContext } from '../providers';
 
 /**

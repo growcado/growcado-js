@@ -14,22 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "strict": true,
-    "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
+    "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "useDefineForClassFields": true,
     "paths": {
-      "@growcado/sdk": ["packages/sdk/src/index.ts"],
-      "@growcado/react": ["packages/react/src/index.ts"]
+      "@growcado/sdk": ["packages/sdk/src/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp", "dist", "coverage"]
+  "exclude": ["node_modules", "tmp"]
 }

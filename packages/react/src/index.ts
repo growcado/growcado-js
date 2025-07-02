@@ -6,7 +6,7 @@
 // Export providers
 export { GrowcadoProvider, useGrowcadoContext } from './lib/providers';
 
-// Export hooks  
+// Export hooks
 export { useGrowcadoContent, useCustomerIdentifiers } from './lib/hooks';
 
 // Export types

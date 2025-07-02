@@ -1,29 +1,10 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/packages/sdk",
-    "rootDir": "./src",
-    "module": "esnext",
-    "composite": true,
+    "outDir": "../../dist/out-tsc",
     "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "tsBuildInfoFile": "../../dist/packages/sdk.tsbuildinfo",
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": [
-    "vite.config.ts",
-    "vite.config.mts",
-    "vitest.config.ts",
-    "vitest.config.mts",
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.tsx",
-    "src/**/*.spec.tsx",
-    "src/**/*.test.js",
-    "src/**/*.spec.js",
-    "src/**/*.test.jsx",
-    "src/**/*.spec.jsx"
-  ]
+  "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }
