@@ -102,3 +102,5 @@ examples/*/*.log
 examples/*/.env*
 examples/*/.DS_Store
 examples/*/coverage/
+
+.cursor/

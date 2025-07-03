@@ -165,6 +165,16 @@ importers:
         specifier: ^3.0.0
         version: 3.2.4(@types/node@20.19.2)(@vitest/ui@3.2.4)(jiti@2.4.2)(jsdom@22.1.0)(terser@5.43.1)(yaml@2.8.0)
 
+  examples/vanilla:
+    dependencies:
+      '@growcado/sdk':
+        specifier: ^0.0.15
+        version: 0.0.15
+    devDependencies:
+      vite:
+        specifier: ^6.0.0
+        version: 6.3.5(@types/node@20.19.2)(jiti@2.4.2)(terser@5.43.1)(yaml@2.8.0)
+
   packages/react:
     dependencies:
       '@growcado/sdk':
@@ -1114,6 +1124,9 @@ packages:
   '@eslint/plugin-kit@0.3.3':
     resolution: {integrity: sha512-1+WqvgNMhmlAambTvT3KPtCl/Ibr68VldY2XY40SL1CE0ZXiakFR/cbTspaF5HsnpDMvcYYoJHfl4980NBjGag==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@growcado/sdk@0.0.15':
+    resolution: {integrity: sha512-oLM/SgnzTigxO5ypthjBQO1lefKLtun/1jwFXX6mxK2rav94A6OkzUmxdXt+7nT/xQVPKd7gOXl0Rxr9epeFvQ==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -7524,6 +7537,12 @@ snapshots:
       '@eslint/core': 0.15.1
       levn: 0.4.1
 
+  '@growcado/sdk@0.0.15':
+    dependencies:
+      axios: 1.10.0
+    transitivePeerDependencies:
+      - debug
+
   '@humanfs/core@0.19.1': {}
 
   '@humanfs/node@0.16.6':
@@ -9669,7 +9688,7 @@ snapshots:
 
   axios@1.10.0:
     dependencies:
-      follow-redirects: 1.15.9(debug@4.4.1)
+      follow-redirects: 1.15.9
       form-data: 4.0.3
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -10924,6 +10943,8 @@ snapshots:
   flat@5.0.2: {}
 
   flatted@3.3.3: {}
+
+  follow-redirects@1.15.9: {}
 
   follow-redirects@1.15.9(debug@4.4.1):
     optionalDependencies:

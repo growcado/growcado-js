@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Growcado SDK - Developer Tool</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="app">
+      <header class="header">
+        <h1>🥑 Growcado SDK Developer Tool</h1>
+        <div class="header-info">
+          <span class="version">v1.0.0</span>
+          <span class="status" id="status">Ready</span>
+        </div>
+      </header>
+      
+      <div class="main-content">
+        <!-- Left Panel - Configuration -->
+        <div class="left-panel">
+          <div class="panel-header">
+            <h2>⚙️ Configuration</h2>
+          </div>
+          
+          <div class="config-scroll-container">
+            <div class="config-section">
+            <h3>SDK Settings</h3>
+            <div class="form-group">
+              <label for="tenant-id">Tenant ID</label>
+              <input type="text" id="tenant-id" placeholder="Enter your tenant ID" />
+            </div>
+            
+            <div class="checkbox-group">
+              <input type="checkbox" id="enable-auto-utm" />
+              <label for="enable-auto-utm">Enable Auto UTM Tracking</label>
+              <span class="info-text">Automatically captures UTM parameters from URL</span>
+            </div>
+            
+            <div class="checkbox-group">
+              <input type="checkbox" id="enable-referrer-tracking" />
+              <label for="enable-referrer-tracking">Enable Referrer Tracking</label>
+              <span class="info-text">Automatically captures initial referrer information</span>
+            </div>
+            
+            <div class="checkbox-group">
+              <input type="checkbox" id="enable-storage" />
+              <label for="enable-storage">Enable Local Storage</label>
+            </div>
+          </div>
+          
+          <div class="config-section">
+            <h3>Customer Identifiers</h3>
+            <div id="customer-identifiers-container">
+              <div class="customer-identifier-pair">
+                <div class="key-value-row">
+                  <input type="text" class="identifier-key" placeholder="Key (e.g., userId)" />
+                  <input type="text" class="identifier-value" placeholder="Value (e.g., user123)" />
+                  <button type="button" class="remove-identifier-btn" title="Remove">×</button>
+                </div>
+              </div>
+            </div>
+            <button type="button" id="add-identifier-btn" class="add-identifier-btn">+ Add Customer Identifier</button>
+          </div>
+          
+          <div class="config-section">
+            <h3>Content Request</h3>
+            <div class="form-group">
+              <label for="model-identifier">Model Identifier</label>
+              <input type="text" id="model-identifier" placeholder="Enter model identifier" />
+            </div>
+            <div class="form-group">
+              <label for="content-identifier">Content Identifier</label>
+              <input type="text" id="content-identifier" placeholder="Enter content identifier" />
+            </div>
+          </div>
+          </div>
+          
+          <div class="action-section">
+            <button id="test-button" class="test-button">
+              <span class="button-icon">▶️</span>
+              <span class="button-text">Execute Request</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Right Panel - Output -->
+        <div class="right-panel">
+          <div class="panel-header">
+            <h2>📋 Output</h2>
+            <div class="output-controls">
+              <button id="clear-output" class="clear-btn">Clear</button>
+              <button id="copy-output" class="copy-btn">Copy</button>
+            </div>
+          </div>
+          
+          <div class="output-container">
+            <pre id="output" class="output-content"></pre>
+          </div>
+          
+          <div class="output-footer">
+            <span id="response-time">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="ui-controller.js"></script>
+  </body>
+</html>

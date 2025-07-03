@@ -1,0 +1,501 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e;
+}
+
+/* Header */
+.header {
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #3e3e3e;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px;
+}
+
+.header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #00d4aa;
+  margin: 0;
+}
+
+.header-info {
+  display: flex;
+  gap: 20px;
+  font-size: 0.875rem;
+}
+
+.version {
+  color: #888;
+  background-color: #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.status {
+  color: #00d4aa;
+  font-weight: 500;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  display: flex;
+  height: calc(100vh - 60px);
+}
+
+/* Left panel - Configuration */
+.left-panel {
+  width: 400px;
+  background-color: #252526;
+  border-right: 1px solid #3e3e3e;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #3e3e3e;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #cccccc;
+  margin: 0;
+}
+
+.output-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.clear-btn, .copy-btn {
+  background-color: #404040;
+  color: #cccccc;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clear-btn:hover, .copy-btn:hover {
+  background-color: #4a4a4a;
+}
+
+/* Configuration scroll container */
+.config-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.config-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.config-scroll-container::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.config-scroll-container::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.config-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Configuration sections */
+.config-section {
+  padding: 20px;
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.config-section h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+/* Info text for checkboxes */
+.info-text {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 4px;
+  margin-left: 24px;
+  font-style: italic;
+}
+
+/* Customer Identifiers Section */
+.customer-identifier-pair {
+  margin-bottom: 12px;
+}
+
+.key-value-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.identifier-key,
+.identifier-value {
+  width: 100%;
+  padding: 8px 10px;
+  background-color: #3c3c3c;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 0.875rem;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  transition: border-color 0.2s ease;
+}
+
+.identifier-key:focus,
+.identifier-value:focus {
+  outline: none;
+  border-color: #00d4aa;
+  box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.2);
+}
+
+.identifier-key::placeholder,
+.identifier-value::placeholder {
+  color: #888;
+}
+
+.remove-identifier-btn {
+  width: 24px;
+  height: 24px;
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.remove-identifier-btn:hover {
+  background-color: #ff5252;
+}
+
+.add-identifier-btn {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #404040;
+  color: #00d4aa;
+  border: 1px solid #555;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.add-identifier-btn:hover {
+  background-color: #4a4a4a;
+  border-color: #00d4aa;
+}
+
+
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.checkbox-group:hover {
+  background-color: #2a2a2a;
+}
+
+/* Labels */
+label {
+  display: block;
+  font-weight: 500;
+  color: #cccccc;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+}
+
+.checkbox-group label {
+  margin: 0;
+  cursor: pointer;
+  color: #e0e0e0;
+}
+
+/* Input fields */
+input[type="text"] {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: #3c3c3c;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #e0e0e0;
+  font-size: 0.875rem;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #00d4aa;
+  box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.2);
+}
+
+input[type="text"]::placeholder {
+  color: #888;
+}
+
+/* Checkboxes */
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #00d4aa;
+  cursor: pointer;
+}
+
+/* Action section */
+.action-section {
+  padding: 20px;
+  background-color: #252526;
+  border-top: 1px solid #3e3e3e;
+  flex-shrink: 0;
+}
+
+.test-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background-color: #00d4aa;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.test-button:hover {
+  background-color: #00c29a;
+  transform: translateY(-1px);
+}
+
+.test-button:active {
+  transform: translateY(0);
+}
+
+.test-button.loading {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.test-button.loading .button-text::after {
+  content: "...";
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0%, 33% { content: "..."; }
+  34%, 66% { content: "...."; }
+  67%, 100% { content: "....."; }
+}
+
+/* Right panel - Output */
+.right-panel {
+  flex: 1;
+  background-color: #1e1e1e;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.output-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.output-content {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background-color: #1e1e1e;
+  border: none;
+  color: #e0e0e0;
+  font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-y: auto;
+  resize: none;
+  margin: 0;
+}
+
+.output-content:empty::before {
+  content: "// Click 'Execute Request' to test the SDK. Output will appear here...";
+  color: #666;
+  font-style: italic;
+}
+
+.output-footer {
+  background-color: #2d2d2d;
+  border-top: 1px solid #3e3e3e;
+  padding: 8px 20px;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+/* Output states */
+.success-output {
+  border-left: 3px solid #00d4aa;
+  background-color: rgba(0, 212, 170, 0.03);
+}
+
+.error-output {
+  border-left: 3px solid #ff6b6b;
+  background-color: rgba(255, 107, 107, 0.05);
+}
+
+/* Scrollbar styling */
+.output-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.output-content::-webkit-scrollbar-track {
+  background: #2d2d2d;
+}
+
+.output-content::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.output-content::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .left-panel {
+    width: 100%;
+    height: 50%;
+    border-right: none;
+    border-bottom: 1px solid #3e3e3e;
+  }
+  
+  .right-panel {
+    height: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 15px;
+  }
+  
+  .header h1 {
+    font-size: 1.1rem;
+  }
+  
+  .header-info {
+    font-size: 0.75rem;
+    gap: 15px;
+  }
+  
+  .config-section {
+    padding: 15px;
+  }
+  
+  .action-section {
+    padding: 15px;
+  }
+  
+  .output-content {
+    padding: 15px;
+    font-size: 0.75rem;
+  }
+  
+  .left-panel {
+    width: 100%;
+    max-height: 60%;
+  }
+}
+
+/* JSON syntax highlighting effect */
+.json-key {
+  color: #9cdcfe;
+}
+
+.json-string {
+  color: #ce9178;
+}
+
+.json-number {
+  color: #b5cea8;
+}
+
+.json-boolean {
+  color: #569cd6;
+}
+
+.json-null {
+  color: #569cd6;
+}
+
