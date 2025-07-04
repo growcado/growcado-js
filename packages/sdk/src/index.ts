@@ -1,8 +1,8 @@
-export { GrowcadoSDK } from './lib/sdk';
+export { GrowcadoSDK } from './lib';
 export type {
   SDKConfig,
   ContentConfig,
   CustomerIdentifiers,
   GrowcadoResponse,
   SDKInstance
-} from './lib/sdk'; 
+} from './lib'; 
