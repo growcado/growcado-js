@@ -242,13 +242,212 @@ interface CustomerIdentifiers {
 }
 ```
 
+### `GrowcadoSDK.setUTMParameters(params: UTMParameters)`
+
+Manually sets UTM parameters for tracking. This will override any existing UTM parameters.
+
+```typescript
+GrowcadoSDK.setUTMParameters({
+  source: 'newsletter',
+  medium: 'email',
+  campaign: 'spring-sale',
+  customParam: 'special-value'
+});
+```
+
+### `GrowcadoSDK.getUTMParameters()`
+
+Retrieves the current UTM parameters. Returns `UTMParameters | null`.
+
+```typescript
+const utmParams = GrowcadoSDK.getUTMParameters();
+if (utmParams) {
+  console.log('Current UTM source:', utmParams.source);
+}
+```
+
+### `GrowcadoSDK.clearUTMParameters()`
+
+Clears all stored UTM parameters.
+
+```typescript
+GrowcadoSDK.clearUTMParameters();
+```
+
+### `GrowcadoSDK.hydrate()`
+
+Activates browser-specific features when transitioning from server-side to client-side rendering. This method automatically migrates data from memory storage to localStorage and enables full tracking capabilities.
+
+```typescript
+// Call during client-side hydration
+GrowcadoSDK.hydrate();
+```
+
+### `GrowcadoSDK.setReferrer(referrer: string | ReferrerData)`
+
+Manually sets referrer information for attribution tracking. This will override any existing referrer data.
+
+```typescript
+// Set as string
+GrowcadoSDK.setReferrer('https://example.com/referring-page');
+
+// Set as ReferrerData object
+GrowcadoSDK.setReferrer({
+  url: 'https://example.com/referring-page',
+  domain: 'example.com'
+});
+```
+
+### `GrowcadoSDK.getReferrer()`
+
+Retrieves the current referrer information. Returns `string | null`.
+
+```typescript
+const referrer = GrowcadoSDK.getReferrer();
+if (referrer) {
+  console.log('Current referrer:', referrer);
+}
+```
+
+### `GrowcadoSDK.clearReferrer()`
+
+Clears all stored referrer information.
+
+```typescript
+GrowcadoSDK.clearReferrer();
+```
+
 ## Features
 
 ### Automatic UTM Tracking
 When `enableAutoUTM` is enabled, the SDK automatically captures and stores UTM parameters from the URL and includes them in API requests.
 
+### Manual UTM Parameter Management
+The SDK now provides methods for manually managing UTM parameters, giving you full control over UTM tracking:
+
+```typescript
+// Set UTM parameters manually
+GrowcadoSDK.setUTMParameters({
+  source: 'newsletter',
+  medium: 'email',
+  campaign: 'spring-sale',
+  term: 'organic',
+  content: 'header-cta'
+});
+
+// Get current UTM parameters
+const currentUTM = GrowcadoSDK.getUTMParameters();
+console.log(currentUTM); // { source: 'newsletter', medium: 'email', ... }
+
+// Clear all UTM parameters
+GrowcadoSDK.clearUTMParameters();
+
+// Set custom UTM parameters
+GrowcadoSDK.setUTMParameters({
+  source: 'social',
+  medium: 'facebook',
+  customParam: 'special-offer'
+});
+```
+
+#### UTM Parameters Interface
+```typescript
+interface UTMParameters {
+  source?: string;      // Traffic source (e.g., 'google', 'newsletter')
+  medium?: string;      // Marketing medium (e.g., 'cpc', 'email')
+  campaign?: string;    // Campaign name (e.g., 'spring-sale')
+  term?: string;        // Search term (e.g., 'organic')
+  content?: string;     // Content identifier (e.g., 'header-cta')
+  [key: string]: string | undefined; // Custom UTM parameters
+}
+```
+
+### UTM Tracking in SSR Environments
+The SDK handles UTM parameters intelligently during server-side rendering and hydration:
+
+- **Server-side**: UTM parameters are preserved in memory storage
+- **Client-side**: Parameters are automatically migrated to localStorage during hydration
+- **Parameter Preservation**: Manually set UTM parameters are preserved during hydration and won't be overwritten by URL parameters unless new ones are present
+
+```typescript
+// Server-side (Next.js example)
+GrowcadoSDK.configure({
+  tenantId: 'your-tenant-id',
+  enableAutoUTM: true
+});
+
+// Manually set UTM parameters on server
+GrowcadoSDK.setUTMParameters({
+  source: 'server',
+  medium: 'ssr'
+});
+
+// Client-side hydration
+useEffect(() => {
+  GrowcadoSDK.hydrate(); // Preserves server-set parameters
+  
+  // Only overrides if new URL parameters are present
+  // ?utm_source=google&utm_medium=cpc would update the parameters
+}, []);
+```
+
 ### Referrer Tracking  
 When `enableReferrerTracking` is enabled, the SDK captures the initial referrer and includes it in API requests for attribution tracking.
+
+### Manual Referrer Tracking
+The SDK now provides methods for manually managing referrer information, giving you full control over referrer attribution:
+
+```typescript
+// Set referrer manually (string)
+GrowcadoSDK.setReferrer('https://example.com/referring-page');
+
+// Set referrer with additional data (ReferrerData object)
+GrowcadoSDK.setReferrer({
+  url: 'https://example.com/referring-page',
+  domain: 'example.com'
+});
+
+// Get current referrer
+const currentReferrer = GrowcadoSDK.getReferrer();
+console.log(currentReferrer); // 'https://example.com/referring-page'
+
+// Clear referrer
+GrowcadoSDK.clearReferrer();
+```
+
+#### ReferrerData Interface
+```typescript
+interface ReferrerData {
+  url: string;          // Referrer URL (required)
+  domain?: string;      // Referrer domain (optional)
+  [key: string]: string | undefined; // Custom referrer properties
+}
+```
+
+### Referrer Tracking in SSR Environments
+Similar to UTM tracking, the SDK handles referrer information intelligently during server-side rendering and hydration:
+
+- **Server-side**: Referrer information is preserved in memory storage
+- **Client-side**: Referrer data is automatically migrated to localStorage during hydration
+- **Parameter Preservation**: Manually set referrer information is preserved during hydration and won't be overwritten by document.referrer unless no referrer was previously stored
+
+```typescript
+// Server-side (Next.js example)
+GrowcadoSDK.configure({
+  tenantId: 'your-tenant-id',
+  enableReferrerTracking: true
+});
+
+// Manually set referrer on server
+GrowcadoSDK.setReferrer('https://newsletter.example.com');
+
+// Client-side hydration
+useEffect(() => {
+  GrowcadoSDK.hydrate(); // Preserves server-set referrer
+  
+  // Only captures document.referrer if no referrer was previously stored
+}, []);
+```
 
 ### Customer Identification
 Set customer identifiers to enable personalized content delivery and customer journey tracking.

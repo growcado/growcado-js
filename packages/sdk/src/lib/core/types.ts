@@ -23,6 +23,21 @@ export interface SDKConfig {
     anonymousId?: string;
     [key: string]: string | undefined;
   }
+
+  export interface UTMParameters {
+    source?: string;
+    medium?: string;
+    campaign?: string;
+    term?: string;
+    content?: string;
+    [key: string]: string | undefined;
+  }
+
+  export interface ReferrerData {
+    url: string;
+    domain?: string;
+    [key: string]: string | undefined;
+  }
   
   export interface GrowcadoResponse<T = unknown> {
     data?: T;
@@ -40,6 +55,14 @@ export interface SDKConfig {
     getConfig(): SDKConfig | null;
     reset(): void;
     hydrate(): void;
+    // Manual UTM tracking methods
+    setUTMParameters(params: UTMParameters): void;
+    clearUTMParameters(): void;
+    getUTMParameters(): UTMParameters | null;
+    // Manual referrer tracking methods
+    setReferrer(referrer: string | ReferrerData): void;
+    clearReferrer(): void;
+    getReferrer(): string | null;
   }
 
   // New interfaces for refactored architecture

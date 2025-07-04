@@ -1,5 +1,5 @@
 import { AxiosHeaders } from 'axios';
-import type { SDKConfig, ContentConfig, CustomerIdentifiers, GrowcadoResponse, SDKInstance } from './types';
+import type { SDKConfig, ContentConfig, CustomerIdentifiers, GrowcadoResponse, SDKInstance, UTMParameters, ReferrerData } from './types';
 import { StorageManager } from '../storage/StorageManager';
 import { HttpClient } from '../http/HttpClient';
 import { UTMTracker } from '../tracking/UTMTracker';
@@ -118,6 +118,32 @@ class GrowcadoSDKClass implements SDKInstance {
 
   setCustomerIdentifiers(identifiers: CustomerIdentifiers): void {
     this.customerManager.setIdentifiers(identifiers);
+  }
+
+  // Manual UTM tracking methods
+  setUTMParameters(params: UTMParameters): void {
+    this.utmTracker.setUTMParameters(params);
+  }
+
+  clearUTMParameters(): void {
+    this.utmTracker.clearUTMParameters();
+  }
+
+  getUTMParameters(): UTMParameters | null {
+    return this.utmTracker.getUTMParameters();
+  }
+
+  // Manual referrer tracking methods
+  setReferrer(referrer: string | ReferrerData): void {
+    this.referrerTracker.setReferrer(referrer);
+  }
+
+  clearReferrer(): void {
+    this.referrerTracker.clearReferrer();
+  }
+
+  getReferrer(): string | null {
+    return this.referrerTracker.getReferrer();
   }
 
   getConfig(): SDKConfig | null {

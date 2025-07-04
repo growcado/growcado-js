@@ -62,7 +62,6 @@ export class CustomerIdentifierManager implements ICustomerIdentifierManager {
   getHeaders(): Record<string, string> {
     const identifiers = this.getIdentifiers();
     const customerHeader = this.buildCustomerIdentifiersHeader(identifiers);
-    
     return {
       'X-CUSTOMER-IDENTIFIERS': customerHeader
     };

@@ -232,18 +232,21 @@ describe('ReferrerTracker', () => {
       expect(headers).toEqual({});
     });
 
-    it('should return empty headers when referrer tracking is disabled', () => {
-      // Reinitialize with referrer tracking disabled
+    it('should not auto-capture referrer when auto-tracking is disabled', () => {
+      // Set document referrer
+      documentMock.referrer = 'https://google.com';
+      
+      // Initialize with referrer tracking disabled
       referrerTracker.initialize({
         tenantId: 'test-tenant',
         enableReferrerTracking: false
       }, storageManager);
       
-      // Manually store referrer
-      storageManager.setItem('cxp_initial_referrer', 'https://google.com');
+      // Should not have auto-captured the referrer
+      const storedReferrer = storageManager.getItem('cxp_initial_referrer');
+      expect(storedReferrer).toBeNull();
       
       const headers = referrerTracker.getHeaders();
-      
       expect(headers).toEqual({});
     });
 
@@ -271,6 +274,24 @@ describe('ReferrerTracker', () => {
         expect(headers).toEqual({
           'X-ENTRY-SOURCE-INITIAL-REFERRAL': referrer
         });
+      });
+    });
+
+    it('should return headers for manually set referrer even when auto-tracking is disabled', () => {
+      // Reinitialize with referrer tracking disabled
+      referrerTracker.initialize({
+        tenantId: 'test-tenant',
+        enableReferrerTracking: false
+      }, storageManager);
+      
+      // Manually store referrer
+      storageManager.setItem('cxp_initial_referrer', 'https://google.com');
+      
+      const headers = referrerTracker.getHeaders();
+      
+      // Manual referrer should still be returned even when auto-tracking is disabled
+      expect(headers).toEqual({
+        'X-ENTRY-SOURCE-INITIAL-REFERRAL': 'https://google.com'
       });
     });
   });
@@ -455,6 +476,174 @@ describe('ReferrerTracker', () => {
       }, storageManager);
       
       expect(storageManager.getItem('cxp_initial_referrer')).toBe('https://google.com');
+    });
+  });
+
+  describe('manual referrer management', () => {
+    beforeEach(() => {
+      referrerTracker.initialize({
+        tenantId: 'test-tenant',
+        enableReferrerTracking: true
+      }, storageManager);
+    });
+
+    describe('setReferrer', () => {
+      it('should set referrer as string', () => {
+        referrerTracker.setReferrer('https://manual-referrer.com');
+        
+        const storedReferrer = storageManager.getItem('cxp_initial_referrer');
+        expect(storedReferrer).toBe('https://manual-referrer.com');
+        
+        const headers = referrerTracker.getHeaders();
+        expect(headers).toEqual({
+          'X-ENTRY-SOURCE-INITIAL-REFERRAL': 'https://manual-referrer.com'
+        });
+      });
+
+      it('should set referrer as ReferrerData object', () => {
+        referrerTracker.setReferrer({
+          url: 'https://manual-referrer.com',
+          domain: 'manual-referrer.com'
+        });
+        
+        const storedReferrer = storageManager.getItem('cxp_initial_referrer');
+        expect(storedReferrer).toBe('https://manual-referrer.com');
+      });
+
+      it('should trim whitespace from referrer URL', () => {
+        referrerTracker.setReferrer('  https://manual-referrer.com  ');
+        
+        const storedReferrer = storageManager.getItem('cxp_initial_referrer');
+        expect(storedReferrer).toBe('https://manual-referrer.com');
+      });
+
+      it('should clear referrer when empty string provided', () => {
+        // First set a referrer
+        referrerTracker.setReferrer('https://manual-referrer.com');
+        expect(storageManager.getItem('cxp_initial_referrer')).toBe('https://manual-referrer.com');
+        
+        // Then clear with empty string
+        referrerTracker.setReferrer('');
+        expect(storageManager.getItem('cxp_initial_referrer')).toBe('');
+      });
+
+      it('should clear referrer when whitespace-only string provided', () => {
+        referrerTracker.setReferrer('https://manual-referrer.com');
+        referrerTracker.setReferrer('   ');
+        
+        const storedReferrer = storageManager.getItem('cxp_initial_referrer');
+        expect(storedReferrer).toBe('');
+      });
+
+      it('should handle ReferrerData with empty URL', () => {
+        referrerTracker.setReferrer({
+          url: '',
+          domain: 'example.com'
+        });
+        
+        const storedReferrer = storageManager.getItem('cxp_initial_referrer');
+        expect(storedReferrer).toBe('');
+      });
+
+      it('should warn when storage not available', () => {
+        const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+        referrerTracker.reset();
+        
+        referrerTracker.setReferrer('https://manual-referrer.com');
+        
+        expect(consoleSpy).toHaveBeenCalledWith('[ReferrerTracker] Storage not available. Cannot set referrer.');
+        consoleSpy.mockRestore();
+      });
+    });
+
+    describe('getReferrer', () => {
+      it('should return stored referrer', () => {
+        referrerTracker.setReferrer('https://manual-referrer.com');
+        
+        const referrer = referrerTracker.getReferrer();
+        expect(referrer).toBe('https://manual-referrer.com');
+      });
+
+      it('should return null when no referrer stored', () => {
+        const referrer = referrerTracker.getReferrer();
+        expect(referrer).toBeNull();
+      });
+
+      it('should return null when referrer is empty string', () => {
+        storageManager.setItem('cxp_initial_referrer', '');
+        
+        const referrer = referrerTracker.getReferrer();
+        expect(referrer).toBeNull();
+      });
+
+      it('should return null when referrer is whitespace only', () => {
+        storageManager.setItem('cxp_initial_referrer', '   ');
+        
+        const referrer = referrerTracker.getReferrer();
+        expect(referrer).toBeNull();
+      });
+
+      it('should return null when storage not available', () => {
+        referrerTracker.reset();
+        
+        const referrer = referrerTracker.getReferrer();
+        expect(referrer).toBeNull();
+      });
+    });
+
+    describe('clearReferrer', () => {
+      it('should clear stored referrer', () => {
+        referrerTracker.setReferrer('https://manual-referrer.com');
+        expect(referrerTracker.getReferrer()).toBe('https://manual-referrer.com');
+        
+        referrerTracker.clearReferrer();
+        expect(referrerTracker.getReferrer()).toBeNull();
+        
+        const headers = referrerTracker.getHeaders();
+        expect(headers).toEqual({});
+      });
+
+      it('should handle clearing when no referrer set', () => {
+        referrerTracker.clearReferrer();
+        
+        const referrer = referrerTracker.getReferrer();
+        expect(referrer).toBeNull();
+      });
+
+      it('should handle clearing when storage not available', () => {
+        referrerTracker.reset();
+        
+        expect(() => referrerTracker.clearReferrer()).not.toThrow();
+      });
+    });
+
+    describe('manual tracking with auto-tracking disabled', () => {
+      beforeEach(() => {
+        referrerTracker.initialize({
+          tenantId: 'test-tenant',
+          enableReferrerTracking: false
+        }, storageManager);
+      });
+
+      it('should allow manual referrer management when auto-tracking disabled', () => {
+        referrerTracker.setReferrer('https://manual-referrer.com');
+        
+        const referrer = referrerTracker.getReferrer();
+        expect(referrer).toBe('https://manual-referrer.com');
+        
+        const headers = referrerTracker.getHeaders();
+        expect(headers).toEqual({
+          'X-ENTRY-SOURCE-INITIAL-REFERRAL': 'https://manual-referrer.com'
+        });
+      });
+
+      it('should allow clearing manual referrer when auto-tracking disabled', () => {
+        referrerTracker.setReferrer('https://manual-referrer.com');
+        referrerTracker.clearReferrer();
+        
+        const referrer = referrerTracker.getReferrer();
+        expect(referrer).toBeNull();
+      });
     });
   });
 }); 
