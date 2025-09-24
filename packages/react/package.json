@@ -1,6 +1,6 @@
 {
   "name": "@growcado/react",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "React hooks and components for Growcado SDK with React Query integration",
   "main": "./index.cjs.js",
   "module": "./index.esm.js",
