@@ -19,7 +19,9 @@
         "commands": [
           "tsc --build packages/sdk/tsconfig.lib.json",
           "tsc --project packages/sdk/tsconfig.lib.cjs.json",
-          "cp packages/sdk/package.json dist/packages/sdk/"
+          "cp -r dist/out-tsc/packages/sdk/src/* dist/packages/sdk/",
+          "cp packages/sdk/package.json dist/packages/sdk/",
+          "cp packages/sdk/README.md dist/packages/sdk/"
         ],
         "parallel": false
       }

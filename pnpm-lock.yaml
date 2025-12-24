@@ -168,8 +168,8 @@ importers:
   examples/vanilla:
     dependencies:
       '@growcado/sdk':
-        specifier: ^0.0.17
-        version: 0.0.17
+        specifier: ^0.0.18
+        version: 0.0.18
     devDependencies:
       vite:
         specifier: ^6.0.0
@@ -1131,8 +1131,8 @@ packages:
     resolution: {integrity: sha512-1+WqvgNMhmlAambTvT3KPtCl/Ibr68VldY2XY40SL1CE0ZXiakFR/cbTspaF5HsnpDMvcYYoJHfl4980NBjGag==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@growcado/sdk@0.0.17':
-    resolution: {integrity: sha512-8gTikr8eaobTd7wlppLW+Lh5VLQ65gsHkt31iwamn8QqTOJY3/hYFPW2Lslf9uYWB2HQOvgreJdWta6Z4DB1uA==}
+  '@growcado/sdk@0.0.18':
+    resolution: {integrity: sha512-nb5AAP2FkRCUs1sNeZQowFG2Ob5X9ueoq2JCn0QTuUxWBPSA/u/V+oG38MYrQTEHRotSX+EXXdML4leFm0Zbbw==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -7668,7 +7668,7 @@ snapshots:
       '@eslint/core': 0.15.1
       levn: 0.4.1
 
-  '@growcado/sdk@0.0.17':
+  '@growcado/sdk@0.0.18':
     dependencies:
       axios: 1.10.0
     transitivePeerDependencies:

@@ -27,7 +27,7 @@
     "publish:dry-run:sdk": "./scripts/publish-package-dry-run.sh sdk patch",
     "publish:dry-run:react": "./scripts/publish-package-dry-run.sh react patch",
     "publish:help": "./scripts/show-publish-help.sh",
-    "example:vanilla": "cd examples/vanilla && pnpm install --ignore-scripts && pnpm run dev"
+    "example:vanilla": "cd examples/vanilla && pnpm install && pnpm run dev"
   },
   "keywords": [
     "growcado",

@@ -1,7 +1,7 @@
-export * from './core/types';
-export { GrowcadoSDK } from './core/GrowcadoSDK';
-export { StorageManager } from './storage/StorageManager';
-export { HttpClient } from './http/HttpClient';
-export { UTMTracker } from './tracking/UTMTracker';
-export { CustomerIdentifierManager } from './tracking/CustomerIdentifierManager';
-export { ReferrerTracker } from './tracking/ReferrerTracker'; 
+export * from './core/types.js';
+export { GrowcadoSDK } from './core/GrowcadoSDK.js';
+export { StorageManager } from './storage/StorageManager.js';
+export { HttpClient } from './http/HttpClient.js';
+export { UTMTracker } from './tracking/UTMTracker.js';
+export { CustomerIdentifierManager } from './tracking/CustomerIdentifierManager.js';
+export { ReferrerTracker } from './tracking/ReferrerTracker.js'; 

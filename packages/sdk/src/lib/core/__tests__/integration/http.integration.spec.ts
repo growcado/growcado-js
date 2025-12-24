@@ -117,7 +117,7 @@ describe('HTTP Integration Tests', () => {
       const modifiedConfig = interceptorFunction(requestConfig);
 
       // Verify all headers are present
-      expect(modifiedConfig.headers['X-CUSTOMER-IDENTIFIERS']).toBe('email=test@example.com&userId=123');
+      expect(modifiedConfig.headers['X-CUSTOMER-IDENTIFIERS']).toBe('email=test@example.com&user_id=123');
       expect(modifiedConfig.headers['X-UTM']).toBe('source=google&medium=cpc');
       expect(modifiedConfig.headers['X-ENTRY-SOURCE-INITIAL-REFERRAL']).toBe('https://google.com');
     });

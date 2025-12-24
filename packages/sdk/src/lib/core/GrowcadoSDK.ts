@@ -1,10 +1,10 @@
 import { AxiosHeaders } from 'axios';
-import type { SDKConfig, ContentConfig, CustomerIdentifiers, GrowcadoResponse, SDKInstance, UTMParameters, ReferrerData } from './types';
-import { StorageManager } from '../storage/StorageManager';
-import { HttpClient } from '../http/HttpClient';
-import { UTMTracker } from '../tracking/UTMTracker';
-import { CustomerIdentifierManager } from '../tracking/CustomerIdentifierManager';
-import { ReferrerTracker } from '../tracking/ReferrerTracker';
+import type { SDKConfig, ContentConfig, CustomerIdentifiers, GrowcadoResponse, SDKInstance, UTMParameters, ReferrerData } from './types.js';
+import { StorageManager } from '../storage/StorageManager.js';
+import { HttpClient } from '../http/HttpClient.js';
+import { UTMTracker } from '../tracking/UTMTracker.js';
+import { CustomerIdentifierManager } from '../tracking/CustomerIdentifierManager.js';
+import { ReferrerTracker } from '../tracking/ReferrerTracker.js';
 
 class GrowcadoSDKClass implements SDKInstance {
   private config: SDKConfig | null = null;

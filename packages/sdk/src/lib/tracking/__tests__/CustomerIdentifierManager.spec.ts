@@ -275,8 +275,8 @@ describe('CustomerIdentifierManager', () => {
       const headers = customerManager.getHeaders();
       
       expect(headers['X-CUSTOMER-IDENTIFIERS']).toContain('email=test@example.com');
-      expect(headers['X-CUSTOMER-IDENTIFIERS']).toContain('userId=12345');
-      expect(headers['X-CUSTOMER-IDENTIFIERS']).toContain('anonymousId=anon-123');
+      expect(headers['X-CUSTOMER-IDENTIFIERS']).toContain('user_id=12345');
+      expect(headers['X-CUSTOMER-IDENTIFIERS']).toContain('anonymous_id=anon-123');
     });
 
     it('should filter out undefined values', () => {

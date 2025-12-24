@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import type { IHttpClient, SDKConfig, GrowcadoResponse } from '../core/types';
+import type { IHttpClient, SDKConfig, GrowcadoResponse } from '../core/types.js';
 
 export class HttpClient implements IHttpClient {
   private axiosInstance: AxiosInstance | null = null;

@@ -1,4 +1,4 @@
-import type { ITracker, IStorageManager, SDKConfig, ReferrerData } from '../core/types';
+import type { ITracker, IStorageManager, SDKConfig, ReferrerData } from '../core/types.js';
 
 export class ReferrerTracker implements ITracker {
   private storage: IStorageManager | null = null;

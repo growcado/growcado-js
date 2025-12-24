@@ -12,6 +12,6 @@
       "vite": "^6.0.0"
     },
     "dependencies": {
-      "@growcado/sdk": "^0.0.17"
+      "@growcado/sdk": "^0.0.19"
     }
   }

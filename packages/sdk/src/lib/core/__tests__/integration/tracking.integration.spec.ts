@@ -122,7 +122,7 @@ describe('Tracking Integration Tests', () => {
 
       // Verify customer identifiers are added to headers
       expect(requestConfig.headers).toEqual({
-        'X-CUSTOMER-IDENTIFIERS': 'userId=user123&sessionId=session456'
+        'X-CUSTOMER-IDENTIFIERS': 'user_id=user123&sessionId=session456'
       });
     });
 
@@ -426,7 +426,7 @@ describe('Tracking Integration Tests', () => {
         interceptorFunction(requestConfig);
 
         expect(requestConfig.headers).toEqual({
-          'X-CUSTOMER-IDENTIFIERS': 'userId=user123',
+          'X-CUSTOMER-IDENTIFIERS': 'user_id=user123',
           'X-UTM': 'source=newsletter'
         });
       });
@@ -504,7 +504,7 @@ describe('Tracking Integration Tests', () => {
         interceptorFunction(requestConfig);
 
         expect(requestConfig.headers).toEqual({
-          'X-CUSTOMER-IDENTIFIERS': 'userId=user123',
+          'X-CUSTOMER-IDENTIFIERS': 'user_id=user123',
           'X-ENTRY-SOURCE-INITIAL-REFERRAL': 'https://manual-referrer.com'
         });
       });
@@ -533,7 +533,7 @@ describe('Tracking Integration Tests', () => {
         interceptorFunction(requestConfig);
 
         expect(requestConfig.headers).toEqual({
-          'X-CUSTOMER-IDENTIFIERS': 'userId=user123&sessionId=session456',
+          'X-CUSTOMER-IDENTIFIERS': 'user_id=user123&sessionId=session456',
           'X-UTM': 'source=newsletter&medium=email',
           'X-ENTRY-SOURCE-INITIAL-REFERRAL': 'https://manual-referrer.com'
         });
@@ -566,7 +566,7 @@ describe('Tracking Integration Tests', () => {
 
         // Manual values should take precedence
         expect(requestConfig.headers).toEqual({
-          'X-CUSTOMER-IDENTIFIERS': 'userId=user123',
+          'X-CUSTOMER-IDENTIFIERS': 'user_id=user123',
           'X-UTM': 'source=newsletter',
           'X-ENTRY-SOURCE-INITIAL-REFERRAL': 'https://manual-referrer.com'
         });
@@ -596,7 +596,7 @@ describe('Tracking Integration Tests', () => {
 
         // UTM and customer identifiers should remain
         expect(requestConfig.headers).toEqual({
-          'X-CUSTOMER-IDENTIFIERS': 'userId=user123',
+          'X-CUSTOMER-IDENTIFIERS': 'user_id=user123',
           'X-UTM': 'source=newsletter'
         });
         expect(requestConfig.headers).not.toHaveProperty('X-ENTRY-SOURCE-INITIAL-REFERRAL');
@@ -625,7 +625,7 @@ describe('Tracking Integration Tests', () => {
         interceptorFunction(requestConfig);
 
         expect(requestConfig.headers).toEqual({
-          'X-CUSTOMER-IDENTIFIERS': 'userId=user123',
+          'X-CUSTOMER-IDENTIFIERS': 'user_id=user123',
           'X-ENTRY-SOURCE-INITIAL-REFERRAL': 'https://manual-referrer.com'
         });
 
@@ -635,7 +635,7 @@ describe('Tracking Integration Tests', () => {
         interceptorFunction(requestConfig);
 
         expect(requestConfig.headers).toEqual({
-          'X-CUSTOMER-IDENTIFIERS': 'userId=user123'
+          'X-CUSTOMER-IDENTIFIERS': 'user_id=user123'
         });
       });
 
@@ -687,7 +687,7 @@ describe('Tracking Integration Tests', () => {
         interceptorFunction(requestConfig);
 
         expect(requestConfig.headers).toEqual({
-          'X-CUSTOMER-IDENTIFIERS': 'userId=user123',
+          'X-CUSTOMER-IDENTIFIERS': 'user_id=user123',
           'X-UTM': 'source=social&medium=facebook',
           'X-ENTRY-SOURCE-INITIAL-REFERRAL': 'https://complex-referrer.com/page?param=value'
         });

@@ -1,4 +1,4 @@
-import type { ICustomerIdentifierManager, IStorageManager, SDKConfig, CustomerIdentifiers } from '../core/types';
+import type { ICustomerIdentifierManager, IStorageManager, SDKConfig, CustomerIdentifiers } from '../core/types.js';
 
 export class CustomerIdentifierManager implements ICustomerIdentifierManager {
   private storage: IStorageManager | null = null;
@@ -77,9 +77,17 @@ export class CustomerIdentifierManager implements ICustomerIdentifierManager {
   }
 
   private buildCustomerIdentifiersHeader(identifiers: CustomerIdentifiers): string {
+    const keyMapping: Record<string, string> = {
+      userId: 'user_id',
+      anonymousId: 'anonymous_id'
+    };
+
     const validIdentifiers = Object.entries(identifiers)
       .filter(([_key, value]) => value !== undefined && value !== '')
-      .map(([key, value]) => `${key}=${value}`);
+      .map(([key, value]) => {
+        const headerKey = keyMapping[key] || key;
+        return `${headerKey}=${value}`;
+      });
 
     return validIdentifiers.length > 0 ? validIdentifiers.join('&') : 'none:none';
   }

@@ -1,4 +1,4 @@
-export { GrowcadoSDK } from './lib';
+export { GrowcadoSDK } from './lib/index.js';
 export type {
   SDKConfig,
   ContentConfig,
@@ -7,4 +7,4 @@ export type {
   ReferrerData,
   GrowcadoResponse,
   SDKInstance
-} from './lib'; 
+} from './lib/index.js'; 

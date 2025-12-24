@@ -1,4 +1,4 @@
-import type { ITracker, IStorageManager, SDKConfig, UTMParameters } from '../core/types';
+import type { ITracker, IStorageManager, SDKConfig, UTMParameters } from '../core/types.js';
 
 export class UTMTracker implements ITracker {
   private storage: IStorageManager | null = null;

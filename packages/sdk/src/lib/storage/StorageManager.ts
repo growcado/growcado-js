@@ -1,4 +1,4 @@
-import type { IStorageManager, SDKConfig } from '../core/types';
+import type { IStorageManager, SDKConfig } from '../core/types.js';
 
 export class StorageManager implements IStorageManager {
   private storageType: 'localStorage' | 'memory';
