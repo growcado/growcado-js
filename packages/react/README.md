@@ -138,7 +138,7 @@ const result = useGrowcadoContent({
   enabled: true, // React Query enabled flag
   staleTime: 5 * 60 * 1000, // 5 minutes
   cacheTime: 10 * 60 * 1000, // 10 minutes (gcTime in React Query v5)
-  headers: { /* optional additional headers */ }
+  cxpParameters: { /* optional dynamic context parameters */ }
 });
 ```
 
@@ -174,6 +174,45 @@ clearCustomer();
 ```
 
 ## Advanced Usage
+
+### CXP Parameters
+
+Pass dynamic, context-specific data with each content request using `cxpParameters`. This is ideal for product pages, cart context, or any frequently changing data:
+
+```tsx
+function ProductBanner({ product }) {
+  const { data, isLoading } = useGrowcadoContent({
+    modelIdentifier: 'product-banner',
+    contentIdentifier: 'hero',
+    cxpParameters: {
+      productId: product.id,
+      productTitle: product.title,
+      productPrice: product.price.toString(),
+      productCategory: product.category
+    }
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  return <Banner data={data} />;
+}
+```
+
+```tsx
+function CartUpsell({ cart }) {
+  const { data } = useGrowcadoContent({
+    modelIdentifier: 'checkout-banner',
+    contentIdentifier: 'upsell',
+    cxpParameters: {
+      cartTotal: cart.total.toString(),
+      cartItemCount: cart.items.length.toString()
+    }
+  });
+
+  return data ? <UpsellBanner content={data} /> : null;
+}
+```
+
+CXP parameters are included in the React Query cache key, so different parameter values result in separate cached entries.
 
 ### Custom Query Options
 

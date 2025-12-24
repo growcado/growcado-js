@@ -15,6 +15,7 @@ export interface SDKConfig {
     tenantId?: string;
     headers?: Record<string, string>;
     customerIdentifiers?: CustomerIdentifiers;
+    cxpParameters?: CXPParameters;
   }
   
   export interface CustomerIdentifiers {
@@ -36,6 +37,10 @@ export interface SDKConfig {
   export interface ReferrerData {
     url: string;
     domain?: string;
+    [key: string]: string | undefined;
+  }
+
+  export interface CXPParameters {
     [key: string]: string | undefined;
   }
   

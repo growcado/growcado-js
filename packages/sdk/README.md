@@ -224,6 +224,7 @@ interface ContentConfig {
   contentIdentifier: string;    // The specific content identifier
   tenantId?: string;           // Override tenant ID for this request
   headers?: Record<string, string>; // Additional headers
+  cxpParameters?: CXPParameters; // Dynamic context parameters (see CXP Parameters section)
 }
 ```
 
@@ -457,6 +458,68 @@ GrowcadoSDK.setCustomerIdentifiers({
   email: 'user@example.com',
   userId: 'user123',
   customId: 'custom-value'
+});
+```
+
+### CXP Parameters
+
+CXP Parameters allow you to pass dynamic, context-specific data with each content request. This is ideal for scenarios where the context changes frequently, such as:
+
+- Product pages (product title, price, SKU)
+- Shopping cart context (cart total, item count)
+- User session data (current page, interaction state)
+
+Unlike customer identifiers which are persisted, CXP parameters are passed per-request and are not stored, making them perfect for highly dynamic data.
+
+```typescript
+// Fetch content with dynamic context
+const response = await GrowcadoSDK.getContent({
+  modelIdentifier: 'product-banner',
+  contentIdentifier: 'hero',
+  cxpParameters: {
+    productTitle: 'iPhone 15 Pro',
+    productPrice: '999',
+    cartTotal: '1250.00',
+    cartItems: '3'
+  }
+});
+```
+
+The parameters are sent via the `X-CXP-PARAMETERS` header in the same key-value format as other tracking headers.
+
+#### CXPParameters Interface
+
+```typescript
+interface CXPParameters {
+  [key: string]: string | undefined; // Any key-value pairs
+}
+```
+
+#### Use Cases
+
+**Product Page Personalization:**
+```typescript
+const response = await GrowcadoSDK.getContent({
+  modelIdentifier: 'product-recommendation',
+  contentIdentifier: 'similar-items',
+  cxpParameters: {
+    productId: 'SKU-12345',
+    productCategory: 'electronics',
+    productPrice: '599.99'
+  }
+});
+```
+
+**Cart-Based Content:**
+```typescript
+const response = await GrowcadoSDK.getContent({
+  modelIdentifier: 'checkout-banner',
+  contentIdentifier: 'upsell',
+  cxpParameters: {
+    cartTotal: cart.total.toString(),
+    cartItemCount: cart.items.length.toString(),
+    hasPromoCode: cart.promoCode ? 'true' : 'false'
+  }
 });
 ```
 

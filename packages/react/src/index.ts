@@ -23,5 +23,6 @@ export type {
   SDKConfig,
   ContentConfig,
   CustomerIdentifiers,
+  CXPParameters,
   GrowcadoResponse,
 } from '@growcado/sdk';

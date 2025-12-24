@@ -5,6 +5,7 @@ export type {
   CustomerIdentifiers,
   UTMParameters,
   ReferrerData,
+  CXPParameters,
   GrowcadoResponse,
   SDKInstance
 } from './lib/index.js'; 

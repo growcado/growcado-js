@@ -253,6 +253,126 @@ describe('HTTP Integration Tests', () => {
         }
       });
     });
+
+    describe('CXP Parameters', () => {
+      it('should include X-CXP-PARAMETERS header when cxpParameters is provided', async () => {
+        const mockResponse = { data: { id: 1, title: 'Test Content' } };
+        mockAxiosInstance.get.mockResolvedValue(mockResponse);
+
+        await GrowcadoSDK.getContent({
+          modelIdentifier: 'product-banner',
+          contentIdentifier: 'hero',
+          cxpParameters: {
+            productTitle: 'iPhone',
+            productPrice: '999'
+          }
+        });
+
+        expect(mockAxiosInstance.get).toHaveBeenCalledWith(
+          'cms/tenant/test-tenant/published/product-banner/hero',
+          { headers: { 'X-CXP-PARAMETERS': 'productTitle=iPhone&productPrice=999' } }
+        );
+      });
+
+      it('should filter out undefined and empty values from cxpParameters', async () => {
+        const mockResponse = { data: { id: 1, title: 'Test Content' } };
+        mockAxiosInstance.get.mockResolvedValue(mockResponse);
+
+        await GrowcadoSDK.getContent({
+          modelIdentifier: 'product-banner',
+          contentIdentifier: 'hero',
+          cxpParameters: {
+            productTitle: 'iPhone',
+            emptyValue: '',
+            undefinedValue: undefined,
+            validValue: 'test'
+          }
+        });
+
+        expect(mockAxiosInstance.get).toHaveBeenCalledWith(
+          'cms/tenant/test-tenant/published/product-banner/hero',
+          { headers: { 'X-CXP-PARAMETERS': 'productTitle=iPhone&validValue=test' } }
+        );
+      });
+
+      it('should URL-encode special characters in cxpParameters', async () => {
+        const mockResponse = { data: { id: 1, title: 'Test Content' } };
+        mockAxiosInstance.get.mockResolvedValue(mockResponse);
+
+        await GrowcadoSDK.getContent({
+          modelIdentifier: 'product-banner',
+          contentIdentifier: 'hero',
+          cxpParameters: {
+            productTitle: 'iPhone 15 Pro',
+            price: '$999.99',
+            special: 'a=b&c=d'
+          }
+        });
+
+        expect(mockAxiosInstance.get).toHaveBeenCalledWith(
+          'cms/tenant/test-tenant/published/product-banner/hero',
+          { headers: { 'X-CXP-PARAMETERS': 'productTitle=iPhone%2015%20Pro&price=%24999.99&special=a%3Db%26c%3Dd' } }
+        );
+      });
+
+      it('should not include X-CXP-PARAMETERS header when cxpParameters is not provided', async () => {
+        const mockResponse = { data: { id: 1, title: 'Test Content' } };
+        mockAxiosInstance.get.mockResolvedValue(mockResponse);
+
+        await GrowcadoSDK.getContent({
+          modelIdentifier: 'blog-post',
+          contentIdentifier: 'test-post'
+        });
+
+        expect(mockAxiosInstance.get).toHaveBeenCalledWith(
+          'cms/tenant/test-tenant/published/blog-post/test-post',
+          undefined
+        );
+      });
+
+      it('should not include X-CXP-PARAMETERS header when all cxpParameters values are empty or undefined', async () => {
+        const mockResponse = { data: { id: 1, title: 'Test Content' } };
+        mockAxiosInstance.get.mockResolvedValue(mockResponse);
+
+        await GrowcadoSDK.getContent({
+          modelIdentifier: 'blog-post',
+          contentIdentifier: 'test-post',
+          cxpParameters: {
+            empty: '',
+            undef: undefined
+          }
+        });
+
+        expect(mockAxiosInstance.get).toHaveBeenCalledWith(
+          'cms/tenant/test-tenant/published/blog-post/test-post',
+          undefined
+        );
+      });
+
+      it('should merge cxpParameters with custom headers', async () => {
+        const mockResponse = { data: { id: 1, title: 'Test Content' } };
+        mockAxiosInstance.get.mockResolvedValue(mockResponse);
+
+        await GrowcadoSDK.getContent({
+          modelIdentifier: 'product-banner',
+          contentIdentifier: 'hero',
+          headers: { 'X-Custom-Header': 'custom-value' },
+          cxpParameters: {
+            productTitle: 'iPhone'
+          }
+        });
+
+        expect(mockAxiosInstance.get).toHaveBeenCalledWith(
+          'cms/tenant/test-tenant/published/product-banner/hero',
+          { 
+            headers: { 
+              'X-Custom-Header': 'custom-value',
+              'X-CXP-PARAMETERS': 'productTitle=iPhone' 
+            } 
+          }
+        );
+      });
+    });
   });
 
   describe('Error Handling Integration', () => {

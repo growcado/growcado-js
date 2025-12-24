@@ -36,6 +36,7 @@ export function useGrowcadoContent<T = any>(
       contentConfig.tenantId,
       contentConfig.customerIdentifiers,
       contentConfig.headers,
+      contentConfig.cxpParameters,
     ],
     queryFn: async (): Promise<T> => {
       if (!isConfigured) {

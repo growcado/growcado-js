@@ -1,5 +1,5 @@
 import { AxiosHeaders } from 'axios';
-import type { SDKConfig, ContentConfig, CustomerIdentifiers, GrowcadoResponse, SDKInstance, UTMParameters, ReferrerData } from './types.js';
+import type { SDKConfig, ContentConfig, CustomerIdentifiers, GrowcadoResponse, SDKInstance, UTMParameters, ReferrerData, CXPParameters } from './types.js';
 import { StorageManager } from '../storage/StorageManager.js';
 import { HttpClient } from '../http/HttpClient.js';
 import { UTMTracker } from '../tracking/UTMTracker.js';
@@ -113,7 +113,16 @@ class GrowcadoSDKClass implements SDKInstance {
 
     const path = `cms/tenant/${tenantId}/published/${config.modelIdentifier}/${config.contentIdentifier}`;
 
-    return this.httpClient.get<T>(path, config.headers);
+    // Build headers including CXP parameters if provided
+    const headers: Record<string, string> = { ...config.headers };
+    if (config.cxpParameters) {
+      const cxpHeader = this.buildCXPParametersHeader(config.cxpParameters);
+      if (cxpHeader) {
+        headers['X-CXP-PARAMETERS'] = cxpHeader;
+      }
+    }
+
+    return this.httpClient.get<T>(path, Object.keys(headers).length > 0 ? headers : undefined);
   }
 
   setCustomerIdentifiers(identifiers: CustomerIdentifiers): void {
@@ -172,6 +181,13 @@ class GrowcadoSDKClass implements SDKInstance {
     Object.assign(headers, utmHeaders, customerHeaders, referrerHeaders);
 
     return headers;
+  }
+
+  private buildCXPParametersHeader(params: CXPParameters): string {
+    return Object.entries(params)
+      .filter(([, value]) => value !== undefined && value !== '')
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value!)}`)
+      .join('&');
   }
 }
 
