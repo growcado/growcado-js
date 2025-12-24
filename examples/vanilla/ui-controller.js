@@ -36,6 +36,10 @@ class UIController {
     // Customer identifiers elements
     this.customerIdentifiersContainer = document.getElementById('customer-identifiers-container');
     this.addIdentifierBtn = document.getElementById('add-identifier-btn');
+    
+    // CXP parameters elements
+    this.cxpParametersContainer = document.getElementById('cxp-parameters-container');
+    this.addCxpBtn = document.getElementById('add-cxp-btn');
   }
 
   /**
@@ -67,6 +71,9 @@ class UIController {
     // Customer identifiers functionality
     this.addIdentifierBtn.addEventListener('click', () => this.addCustomerIdentifier());
     
+    // CXP parameters functionality
+    this.addCxpBtn.addEventListener('click', () => this.addCxpParameter());
+    
     // Input validation events
     [this.tenantIdInput, this.modelIdentifierInput, this.contentIdentifierInput].forEach(input => {
       input.addEventListener('input', () => this.validateFormInputs());
@@ -83,6 +90,7 @@ class UIController {
     this.updateStatus('Ready');
     this.responseTimeElement.textContent = '-';
     this.initializeCustomerIdentifiers(); // Set up customer identifiers functionality
+    this.initializeCxpParameters(); // Set up CXP parameters functionality
     console.log('🥑 Growcado SDK Developer Tool loaded');
   }
 
@@ -163,6 +171,75 @@ class UIController {
   }
 
   /**
+   * Initialize CXP parameters functionality
+   */
+  initializeCxpParameters() {
+    this.bindCxpParameterEvents();
+  }
+
+  /**
+   * Bind events for existing CXP parameter pairs
+   */
+  bindCxpParameterEvents() {
+    this.cxpParametersContainer.querySelectorAll('.remove-cxp-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => this.removeCxpParameter(e.target.closest('.cxp-parameter-pair')));
+    });
+  }
+
+  /**
+   * Add a new CXP parameter pair
+   */
+  addCxpParameter() {
+    const newPair = document.createElement('div');
+    newPair.className = 'cxp-parameter-pair';
+    newPair.innerHTML = `
+      <div class="key-value-row">
+        <input type="text" class="cxp-key" placeholder="Key (e.g., segment)" />
+        <input type="text" class="cxp-value" placeholder="Value (e.g., premium)" />
+        <button type="button" class="remove-cxp-btn" title="Remove">×</button>
+      </div>
+    `;
+    
+    this.cxpParametersContainer.appendChild(newPair);
+    
+    // Bind remove button event
+    const removeBtn = newPair.querySelector('.remove-cxp-btn');
+    removeBtn.addEventListener('click', () => this.removeCxpParameter(newPair));
+  }
+
+  /**
+   * Remove a CXP parameter pair
+   */
+  removeCxpParameter(pair) {
+    // Don't remove if it's the only pair
+    if (this.cxpParametersContainer.children.length > 1) {
+      pair.remove();
+    } else {
+      // Clear the inputs instead of removing the last pair
+      pair.querySelector('.cxp-key').value = '';
+      pair.querySelector('.cxp-value').value = '';
+    }
+  }
+
+  /**
+   * Get all CXP parameters as key-value pairs
+   */
+  getCxpParameters() {
+    const parameters = {};
+    
+    this.cxpParametersContainer.querySelectorAll('.cxp-parameter-pair').forEach(pair => {
+      const key = pair.querySelector('.cxp-key').value.trim();
+      const value = pair.querySelector('.cxp-value').value.trim();
+      
+      if (key && value) {
+        parameters[key] = value;
+      }
+    });
+    
+    return parameters;
+  }
+
+  /**
    * Get configuration from form inputs
    */
   getFormConfiguration() {
@@ -229,16 +306,17 @@ class UIController {
   /**
    * Display configuration details separately
    */
-  displayConfigInfo(config, contentParams, customerIdentifiers, metadata) {
+  displayConfigInfo(config, contentParams, customerIdentifiers, cxpParameters, metadata) {
     const timestamp = new Date().toLocaleTimeString();
     
-    const configSection = `// ${timestamp} - Configuration Used\n${'='.repeat(30)}\n\nSDK Config:\n${this.formatOutput(config)}\n\nContent Parameters:\n${this.formatOutput(contentParams)}\n\nCustomer Identifiers:\n${this.formatOutput(customerIdentifiers)}\n\nRequest Metadata:\n${this.formatOutput(metadata)}\n\n`;
+    const configSection = `// ${timestamp} - Configuration Used\n${'='.repeat(30)}\n\nSDK Config:\n${this.formatOutput(config)}\n\nContent Parameters:\n${this.formatOutput(contentParams)}\n\nCustomer Identifiers:\n${this.formatOutput(customerIdentifiers)}\n\nCXP Parameters:\n${this.formatOutput(cxpParameters)}\n\nRequest Metadata:\n${this.formatOutput(metadata)}\n\n`;
     
     // Show config info in console for reference
     console.group('🔧 Request Configuration');
     console.log('SDK Config:', config);
     console.log('Content Parameters:', contentParams);
     console.log('Customer Identifiers:', customerIdentifiers);
+    console.log('CXP Parameters:', cxpParameters);
     console.log('Metadata:', metadata);
     console.groupEnd();
     
@@ -337,11 +415,12 @@ class UIController {
       const config = this.getFormConfiguration();
       const contentParams = this.getFormContentParameters();
       const customerIdentifiers = this.getCustomerIdentifiers();
+      const cxpParameters = this.getCxpParameters();
       
       this.updateStatus('SDK configured, fetching content...');
       
       // Use SDK client to execute request
-      const result = await sdkClient.execute(config, contentParams, customerIdentifiers);
+      const result = await sdkClient.execute(config, contentParams, customerIdentifiers, cxpParameters);
       
       const endTime = performance.now();
       const responseTime = Math.round(endTime - startTime);
@@ -354,7 +433,7 @@ class UIController {
       };
       
       // Display configuration info in console
-      this.displayConfigInfo(result.config, result.contentParams, result.customerIdentifiers, metadata);
+      this.displayConfigInfo(result.config, result.contentParams, result.customerIdentifiers, result.cxpParameters, metadata);
       
       // Display only the API response in the main output
       if (result.success) {
@@ -380,7 +459,8 @@ class UIController {
       this.displayConfigInfo(
         this.getFormConfiguration(),
         this.getFormContentParameters(),
-        customerIdentifiers,
+        this.getCustomerIdentifiers(),
+        this.getCxpParameters(),
         metadata
       );
       

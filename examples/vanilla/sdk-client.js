@@ -64,7 +64,7 @@ class SDKClient {
   /**
    * Main execution method - validates, configures, and executes
    */
-  async execute(config, contentParams, customerIdentifiers = {}) {
+  async execute(config, contentParams, customerIdentifiers = {}, cxpParameters = {}) {
     // Validate inputs
     const validationError = this.validateInputs(config, contentParams);
     if (validationError) {
@@ -74,24 +74,32 @@ class SDKClient {
     // Configure SDK with customer identifiers
     this.configure(config, customerIdentifiers);
     
+    // Add CXP parameters to content params if provided
+    const fullContentParams = { ...contentParams };
+    if (cxpParameters && Object.keys(cxpParameters).length > 0) {
+      fullContentParams.cxpParameters = cxpParameters;
+    }
+    
     // Execute request
-    const response = await this.getContent(contentParams);
+    const response = await this.getContent(fullContentParams);
     
     if (response.data) {
       return {
         success: true,
         data: response.data,
         config,
-        contentParams,
-        customerIdentifiers
+        contentParams: fullContentParams,
+        customerIdentifiers,
+        cxpParameters
       };
     } else if (response.error) {
       return {
         success: false,
         error: response.error,
         config,
-        contentParams,
-        customerIdentifiers
+        contentParams: fullContentParams,
+        customerIdentifiers,
+        cxpParameters
       };
     } else {
       throw new Error('No data or error returned from SDK');
